@@ -8,26 +8,57 @@ import re
 import tempfile
 import unittest
 
-from treasuregraph.generator import generate_world
+from treasuregraph.generator import SECTOR_METADATA, generate_world
 
 
 class TestTreasureGraphGenerator(unittest.TestCase):
-    """Test suite for world generation, reproducibility, and clue chain resolution."""
+    """Test suite for world generation, semantic clue properties, and reproducibility."""
 
-    def resolve_next_step(self, clue_text: str) -> str:
-        """Solves direct or semantic clues to determine the next relative file path."""
+    def resolve_next_step(self, clue_text: str, world_dir: Path) -> str:
+        """Resolves direct or semantic clues by inspecting available files."""
         # Check direct clue format
         direct_match = re.search(r"Next clue \(Direct\):.*?'([^']+\.txt)'", clue_text)
         if direct_match:
             return direct_match.group(1)
 
         # Check semantic clue format
-        semantic_match = re.search(r"folder:\s*'([^']+)'.*?'([^']+\.txt)'", clue_text)
-        if semantic_match:
-            folder, filename = semantic_match.group(1), semantic_match.group(2)
-            return f"{folder}/{filename}"
+        semantic_match = re.search(
+            r"Next clue \(Semantic\):\s*(?:Proceed to|Access)\s+(.+?)\s+and\s+(?:examine|inspect)\s+(?:the document detailing|the console record storing)\s+(.+?)\.",
+            clue_text,
+        )
+        if not semantic_match:
+            raise ValueError(f"Unable to parse clue text:\n{clue_text}")
 
-        raise ValueError(f"Unable to resolve next path from clue:\n{clue_text}")
+        target_sector_desc = semantic_match.group(1).strip()
+        target_purpose = semantic_match.group(2).strip()
+
+        # Map sector description to physical folder
+        matching_folders = [
+            folder
+            for folder, meta in SECTOR_METADATA.items()
+            if meta["descriptor"] == target_sector_desc
+        ]
+        if len(matching_folders) != 1:
+            raise ValueError(f"Ambiguous or unknown sector descriptor: '{target_sector_desc}'")
+
+        target_folder = matching_folders[0]
+        folder_path = world_dir / target_folder
+
+        # Within the target folder, inspect candidate files
+        candidates = list(folder_path.glob("*.txt"))
+        matching_files = []
+        for cand in candidates:
+            content = cand.read_text(encoding="utf-8")
+            # The genuine clue file has Subject matching target_purpose
+            if target_purpose in content:
+                matching_files.append(cand)
+
+        if len(matching_files) != 1:
+            raise ValueError(
+                f"Expected exactly 1 matching file in '{target_folder}' for purpose '{target_purpose}', found {len(matching_files)}"
+            )
+
+        return f"{target_folder}/{matching_files[0].name}"
 
     def extract_secret_code(self, vault_text: str) -> str:
         """Extracts the secret code from the final vault terminal file."""
@@ -44,59 +75,90 @@ class TestTreasureGraphGenerator(unittest.TestCase):
 
             key = generate_world(seed=42, output_dir=world_dir)
 
-            # Check folders in world_dir
             subdirs = [p for p in world_dir.iterdir() if p.is_dir()]
             self.assertEqual(len(subdirs), 3, "Expected exactly 3 folders in world_dir.")
 
-            # Check files in world_dir
             txt_files = list(world_dir.glob("*/*.txt"))
             self.assertEqual(len(txt_files), 5, "Expected exactly 5 .txt files in world.")
 
-            # Verify distribution: all folders have at least 1 file
             counts = [len(list(d.glob("*.txt"))) for d in subdirs]
             self.assertCountEqual(counts, [2, 2, 1], "Expected distribution of files to be [2, 2, 1].")
 
-            # Check answer_key.json exists outside world_dir
             key_file = tmp_path / "answer_key.json"
             self.assertTrue(key_file.exists(), "answer_key.json should be saved outside world_dir.")
-            self.assertFalse(
-                (world_dir / "answer_key.json").exists(),
-                "answer_key.json must not be accessible inside world_dir.",
-            )
+            self.assertFalse((world_dir / "answer_key.json").exists())
 
-            # Verify key matches return value
             saved_key = json.loads(key_file.read_text(encoding="utf-8"))
             self.assertEqual(saved_key["secret_code"], key["secret_code"])
 
-    def test_following_clues_finds_treasure(self):
-        """Simulates an agent following the chain of clues to discover the secret code."""
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            tmp_path = Path(tmp_dir)
-            world_dir = tmp_path / "world"
+    def test_semantic_clues_do_not_reveal_exact_names(self):
+        """Verifies semantic clues never contain exact folder or file names across many seeds."""
+        for seed in range(50):
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                world_dir = Path(tmp_dir) / "world"
+                key = generate_world(seed=seed, output_dir=world_dir)
 
-            key = generate_world(seed=123, output_dir=world_dir)
+                for step in key["clue_chain"]:
+                    if step["type"] == "semantic":
+                        source_file = world_dir / step["file"]
+                        content = source_file.read_text(encoding="utf-8")
 
-            # 1. Start at the briefing file
-            start_rel_path = key["start_file"]
-            self.assertTrue((world_dir / start_rel_path).exists())
+                        target_path = step["leads_to"]
+                        target_folder, target_filename = target_path.split("/")
+                        target_stem = target_filename.replace(".txt", "")
 
-            step1_text = (world_dir / start_rel_path).read_text(encoding="utf-8")
-            step2_rel_path = self.resolve_next_step(step1_text)
+                        # Extract clue line
+                        clue_match = re.search(r"Next clue \(Semantic\):.+", content)
+                        self.assertIsNotNone(clue_match)
+                        clue_line = clue_match.group(0).lower()
 
-            # 2. Inspect step 2 file
-            self.assertTrue((world_dir / step2_rel_path).exists())
-            step2_text = (world_dir / step2_rel_path).read_text(encoding="utf-8")
-            step3_rel_path = self.resolve_next_step(step2_text)
+                        # Must not contain folder name or filename
+                        self.assertNotIn(
+                            target_folder.lower(),
+                            clue_line,
+                            f"Seed {seed}: Semantic clue revealed exact folder name '{target_folder}'!",
+                        )
+                        self.assertNotIn(
+                            target_filename.lower(),
+                            clue_line,
+                            f"Seed {seed}: Semantic clue revealed exact filename '{target_filename}'!",
+                        )
+                        self.assertNotIn(
+                            target_stem.lower(),
+                            clue_line,
+                            f"Seed {seed}: Semantic clue revealed exact file stem '{target_stem}'!",
+                        )
 
-            # 3. Inspect final vault terminal
-            self.assertTrue((world_dir / step3_rel_path).exists())
-            step3_text = (world_dir / step3_rel_path).read_text(encoding="utf-8")
-            found_code = self.extract_secret_code(step3_text)
+    def test_following_clues_finds_treasure_across_seeds(self):
+        """Simulates following both direct and semantic clues to reach the secret code."""
+        for seed in [42, 123, 555]:
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                world_dir = Path(tmp_dir) / "world"
+                key = generate_world(seed=seed, output_dir=world_dir)
 
-            # Verify entire path and discovered secret code
-            expected_path = key["solution_path"]
-            self.assertEqual([start_rel_path, step2_rel_path, step3_rel_path], expected_path)
-            self.assertEqual(found_code, key["secret_code"])
+                # 1. Start at briefing
+                start_rel_path = key["start_file"]
+                step1_text = (world_dir / start_rel_path).read_text(encoding="utf-8")
+                step2_rel_path = self.resolve_next_step(step1_text, world_dir)
+
+                # 2. Inspect step 2 file
+                step2_text = (world_dir / step2_rel_path).read_text(encoding="utf-8")
+                step3_rel_path = self.resolve_next_step(step2_text, world_dir)
+
+                # 3. Inspect final vault terminal
+                step3_text = (world_dir / step3_rel_path).read_text(encoding="utf-8")
+                found_code = self.extract_secret_code(step3_text)
+
+                self.assertEqual(
+                    [start_rel_path, step2_rel_path, step3_rel_path],
+                    key["solution_path"],
+                    f"Seed {seed}: Path taken differs from solution path.",
+                )
+                self.assertEqual(
+                    found_code,
+                    key["secret_code"],
+                    f"Seed {seed}: Found code does not match expected secret code.",
+                )
 
     def test_reproducibility(self):
         """Verifies that the same seed produces identical environments and answer keys."""
@@ -109,7 +171,6 @@ class TestTreasureGraphGenerator(unittest.TestCase):
 
             self.assertEqual(key1, key2)
 
-            # Compare all generated files
             files1 = sorted([str(p.relative_to(dir1)) for p in dir1.glob("*/*.txt")])
             files2 = sorted([str(p.relative_to(dir2)) for p in dir2.glob("*/*.txt")])
             self.assertEqual(files1, files2)
