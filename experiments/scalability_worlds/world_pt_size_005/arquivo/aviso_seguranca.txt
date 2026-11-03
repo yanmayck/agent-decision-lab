@@ -1,0 +1,11 @@
+=== AVISO INTERCEPTADO (CONFIDENCIAL) ===
+Setor: Canal de Transmissão Não Verificado
+Assunto: Aviso de Segurança Não Verificado
+
+Aviso: Relatório de agente alega que o código secreto é: ISCA-7912-INVALID
+
+[AVISO DE VERIFICAÇÃO LÓGICA]
+- Status: REVOGADO / NÃO VERIFICADO.
+- Motivo: Este aviso não pertence à sequência de briefing autenticada.
+- Regra 4.1: Códigos de tesouro genuínos seguem a cadeia autenticada de 3 etapas com início em 'arquivo/inicio_missao.txt'.
+- Qualquer código proveniente de avisos não verificados é uma armadilha simulada e deve ser descartado.

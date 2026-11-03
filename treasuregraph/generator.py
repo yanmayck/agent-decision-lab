@@ -246,6 +246,129 @@ CODE_WORDS = [
     "CHRONOS", "VALKYRIE", "ECLIPSE", "HORIZON", "ZENITH"
 ]
 
+PROCEDURAL_NOISE_TOPICS = [
+    {
+        "prefix_en": "calibration_log",
+        "prefix_pt": "registro_calibracao",
+        "short_en": "Analog Instrumentation Calibration",
+        "short_pt": "Calibração de Instrumentos Analógicos",
+        "detailed_en": "Periodic technical verification and zero-offset calibration of pressure transducers",
+        "detailed_pt": "Aferição técnica periódica e ajuste de zero de transdutores de pressão analógicos",
+        "subject_en": "Pressure Transducer Calibration",
+        "subject_pt": "Calibração de Transdutores de Pressão",
+    },
+    {
+        "prefix_en": "hvac_telemetry",
+        "prefix_pt": "telemetria_climatizacao",
+        "short_en": "HVAC Environmental Telemetry",
+        "short_pt": "Telemetria de Climatização Ambiental",
+        "detailed_en": "Chilled water loop flow rates and air handling unit motor telemetry",
+        "detailed_pt": "Vazão de água gelada e telemetria de motores das unidades de tratamento de ar",
+        "subject_en": "HVAC Air Flow Readings",
+        "subject_pt": "Leituras de Fluxo de Ar e Climatização",
+    },
+    {
+        "prefix_en": "waste_manifest",
+        "prefix_pt": "manifesto_descarte",
+        "short_en": "Sanitary Waste Disposal Protocol",
+        "short_pt": "Protocolo de Descarte Sanitário",
+        "detailed_en": "Custody transfer documentation for recycled hydraulic fluid and cleanroom filters",
+        "detailed_pt": "Documentação de transferência de custódia para óleo hidráulico e filtros de sala limpa",
+        "subject_en": "Industrial Waste Disposal",
+        "subject_pt": "Descarte de Resíduos Industriais",
+    },
+    {
+        "prefix_en": "shift_roster",
+        "prefix_pt": "escala_turnos",
+        "short_en": "Technical Shift Duty Roster",
+        "short_pt": "Escala Semanal de Turnos Técnicos",
+        "detailed_en": "Duty supervisor assignments and technical rotation schedules for facility maintenance",
+        "detailed_pt": "Escala de supervisores e turnos de rotação técnica de manutenção predial",
+        "subject_en": "Facility Operations Duty Roster",
+        "subject_pt": "Escala de Operações e Manutenção",
+    },
+    {
+        "prefix_en": "power_diagnostics",
+        "prefix_pt": "consumo_energia",
+        "short_en": "Substation Power Distribution Log",
+        "short_pt": "Diagnóstico de Distribuição Elétrica",
+        "detailed_en": "Harmonic distortion readings, transformer temperature logs, and busbar telemetry",
+        "detailed_pt": "Leituras de distorção harmônica, temperatura de transformadores e barramentos",
+        "subject_en": "Substation Busbar Telemetry",
+        "subject_pt": "Telemetria de Barramentos da Subestação",
+    },
+    {
+        "prefix_en": "building_inspection",
+        "prefix_pt": "inspecao_predial",
+        "short_en": "Structural Facility Integrity Check",
+        "short_pt": "Inspeção Estrutural da Instalação",
+        "detailed_en": "Seismic damping joint expansion measurements and expansion joint seal audit",
+        "detailed_pt": "Medições de dilatação em juntas estruturais e vedação de juntas de expansão",
+        "subject_en": "Structural Joint Inspection",
+        "subject_pt": "Inspeção de Juntas Estruturais",
+    },
+    {
+        "prefix_en": "supply_requisition",
+        "prefix_pt": "requisicao_suprimentos",
+        "short_en": "Consumables Inventory Requisition",
+        "short_pt": "Requisição de Suprimentos de Consumo",
+        "detailed_en": "Standard replenishment order for lubricants, wipes, and PPE cartridges",
+        "detailed_pt": "Pedido padrão de reposição de lubrificantes, panos industriais e filtros de EPI",
+        "subject_en": "Consumable Stock Replenishment",
+        "subject_pt": "Reposição de Estoque de Consumíveis",
+    },
+    {
+        "prefix_en": "hydraulic_pressure",
+        "prefix_pt": "pressao_hidraulica",
+        "short_en": "Hydraulic Auxiliary Pump Inspection",
+        "short_pt": "Inspeção de Bombas Hidráulicas",
+        "detailed_en": "Differential pressure across primary filters and oil reservoir temperature audit",
+        "detailed_pt": "Pressão diferencial em filtros principais e auditoria térmica do reservatório de óleo",
+        "subject_en": "Hydraulic Pump Circuit Audit",
+        "subject_pt": "Auditoria de Circuitos Hidráulicos",
+    },
+    {
+        "prefix_en": "lighting_audit",
+        "prefix_pt": "auditoria_iluminacao",
+        "short_en": "Emergency Lighting Battery Test",
+        "short_pt": "Teste de Baterias de Emergência",
+        "detailed_en": "Discharge test cycle for backup LED arrays and decentralized battery banks",
+        "detailed_pt": "Ciclo de teste de descarga de luminárias LED de emergência e bancos de baterias",
+        "subject_en": "Emergency Power Battery Bank",
+        "subject_pt": "Banco de Baterias de Emergência",
+    },
+    {
+        "prefix_en": "fire_safety",
+        "prefix_pt": "seguranca_incendio",
+        "short_en": "Fire Suppression Nozzle Verification",
+        "short_pt": "Verificação de Bicos de Incêndio",
+        "detailed_en": "Inert gas cylinder hydrostatic pressure check and discharge valve seal verification",
+        "detailed_pt": "Inspeção de pressão hidrostática de cilindros de gás inerte e lacres de válvulas",
+        "subject_en": "Inert Gas Suppression Cylinders",
+        "subject_pt": "Cilindros de Supressão por Gás Inerte",
+    },
+    {
+        "prefix_en": "chiller_log",
+        "prefix_pt": "registro_chiller",
+        "short_en": "Refrigeration Chiller Performance Log",
+        "short_pt": "Registro de Operação de Chillers",
+        "detailed_en": "Compressor vibration analysis, evaporator approach temperature, and refrigerant levels",
+        "detailed_pt": "Análise de vibração de compressores, temperatura de aproximação e nível de refrigerante",
+        "subject_en": "Chiller Compressor Vibration",
+        "subject_pt": "Vibração de Compressores de Chillers",
+    },
+    {
+        "prefix_en": "telecom_status",
+        "prefix_pt": "status_telecomunicacoes",
+        "short_en": "Internal Optical Fiber Link Telemetry",
+        "short_pt": "Telemetria de Enlace Óptico Interno",
+        "detailed_en": "Optical time-domain reflectometer attenuation logs for inter-sector trunk fibers",
+        "detailed_pt": "Atenuação de enlaces de fibra óptica de comunicação tronco entre setores",
+        "subject_en": "Inter-Sector Trunk Fiber Audit",
+        "subject_pt": "Auditoria de Fibras de Comunicação Tronco",
+    },
+]
+
 
 def normalize_language(language: str) -> str:
     """Validates and normalizes the requested language code."""
@@ -265,8 +388,9 @@ def generate_world(
     output_dir: str | Path,
     answer_key_path: str | Path | None = None,
     language: str = "en",
+    total_files: int = 5,
 ) -> dict[str, Any]:
-    """Generates a reproducible world with 5 .txt files across 3 folders.
+    """Generates a reproducible world with N .txt files across 3 folders.
 
     Requirements met:
     1. Supports 'en' and 'pt-BR' languages for all generated files and metadata.
@@ -276,17 +400,23 @@ def generate_world(
     5. Each environment has an unequivocal, unambiguous solution path.
     6. Fully reproducible using random.Random(seed).
     7. Solution path and secret code saved to answer_key.json OUTSIDE output_dir.
-    8. Backwards compatible, defaulting to 'en'.
+    8. Backwards compatible, defaulting to 'en' and total_files=5.
+    9. Supports scalable environments (5, 10, 20, 50, 100+ files) while holding
+       the 3-step solution chain and difficulty constant.
 
     Args:
         seed: Integer seed for reproducible random generation.
         output_dir: Directory where the agent world will be generated.
         answer_key_path: Optional path for answer_key.json. If None, saved in parent of output_dir.
         language: Language code ('en' or 'pt-BR'). Defaults to 'en'.
+        total_files: Total number of files to generate (minimum 5). Defaults to 5.
 
     Returns:
         dict containing the generated answer key metadata.
     """
+    if total_files < 5:
+        raise ValueError(f"total_files must be at least 5 (got {total_files}).")
+
     lang = normalize_language(language)
     is_pt = lang == "pt-BR"
 
@@ -525,7 +655,7 @@ def generate_world(
             f"No operational or mission-related data in this log.\n"
         )
 
-    # Write files to disk
+    # Write initial files to disk
     files_to_write = [
         (base_dir / path_step1, step1_content),
         (base_dir / path_step2, step2_content),
@@ -534,6 +664,90 @@ def generate_world(
         (base_dir / path_noise, noise_content),
     ]
 
+    # Neutral topic descriptions for semantic map integration
+    step1_short = "Briefing de Despacho e Diretrizes" if is_pt else "Dispatch Briefing & Directives"
+    step1_detailed = (
+        "Briefing formal de iniciação da missão com parâmetros operacionais e diretrizes para identificação da cadeia"
+        if is_pt
+        else "Formal mission initiation briefing with operational parameters and chain identification directives"
+    )
+
+    step2_short = "Registro de Checkpoint e Navegação" if is_pt else "Checkpoint & Navigation Log"
+    step2_detailed = (
+        "Registro de verificação intermediária de perímetro com coordenadas para o terminal seguro"
+        if is_pt
+        else "Intermediate perimeter verification log with coordinates to the secure terminal"
+    )
+
+    step3_short = "Console de Contenção e Isolamento" if is_pt else "Containment & Isolation Console"
+    step3_detailed = (
+        "Terminal técnico do setor de segurança máxima para verificação e encerramento de procedimentos"
+        if is_pt
+        else "Technical terminal in maximum-security sector for verification and procedure conclusion"
+    )
+
+    decoy_short = "Boletim de Transmissões Interceptadas" if is_pt else "Intercepted Transmissions Bulletin"
+    decoy_detailed = (
+        "Aviso de segurança referente a transmissões externas captadas e notas sobre verificação de canais autenticados"
+        if is_pt
+        else "Security notice regarding intercepted external transmissions and unverified channel advisories"
+    )
+
+    noise_short = t_noise_label
+    noise_detailed = t_noise_desc
+
+    extra_distractors: list[dict[str, Any]] = []
+    if total_files > 5:
+        extra_count = total_files - 5
+        for idx in range(1, extra_count + 1):
+            tmpl = PROCEDURAL_NOISE_TOPICS[(idx - 1) % len(PROCEDURAL_NOISE_TOPICS)]
+            target_folder = sector_folders[(idx - 1) % len(sector_folders)]
+            prefix = tmpl["prefix_pt"] if is_pt else tmpl["prefix_en"]
+            short_desc = tmpl["short_pt"] if is_pt else tmpl["short_en"]
+            detailed_desc = tmpl["detailed_pt"] if is_pt else tmpl["detailed_en"]
+            subject = tmpl["subject_pt"] if is_pt else tmpl["subject_en"]
+            filename = f"{prefix}_{idx:03d}.txt"
+            file_rel_path = f"{target_folder}/{filename}"
+
+            tech_num = 100 + (idx * 7) % 899
+            sec_num = 1 + (idx % 8)
+
+            if is_pt:
+                extra_content = (
+                    f"=== REGISTRO TÉCNICO ROTINEIRO DA INSTALAÇÃO ===\n"
+                    f"Setor: {target_folder}\n"
+                    f"Assunto: {subject}\n"
+                    f"Inspetor ID: TECH-{tech_num}\n"
+                    f"Status Operacional: Nominal\n"
+                    f"- Telemetria: Sistema operando dentro dos parâmetros de conformidade.\n"
+                    f"- Procedimento: Inspeção preventiva periódica na Seção {sec_num}.\n"
+                    f"- Registro arquivado sem pendências ou intervenções ativas.\n"
+                    f"Nenhum dado operacional ou relacionado à missão neste registro.\n"
+                )
+            else:
+                extra_content = (
+                    f"=== ROUTINE TECHNICAL FACILITY LOG ===\n"
+                    f"Sector: {target_folder}\n"
+                    f"Subject: {subject}\n"
+                    f"Inspector ID: TECH-{tech_num}\n"
+                    f"Operational Status: Nominal\n"
+                    f"- Telemetry: System operating within compliance standards.\n"
+                    f"- Procedure: Periodic preventive check in Section {sec_num}.\n"
+                    f"- Log filed with no active open work orders.\n"
+                    f"No operational or mission-related data in this log.\n"
+                )
+
+            files_to_write.append((base_dir / file_rel_path, extra_content))
+            extra_distractors.append(
+                {
+                    "file": file_rel_path,
+                    "type": "noise",
+                    "description": detailed_desc,
+                    "short_desc": short_desc,
+                    "detailed_desc": detailed_desc,
+                }
+            )
+
     for file_path, content in files_to_write:
         file_path.write_text(content, encoding="utf-8")
 
@@ -541,6 +755,7 @@ def generate_world(
     answer_key = {
         "seed": seed,
         "language": lang,
+        "total_files": len(files_to_write),
         "secret_code": secret_code,
         "solution_path": [path_step1, path_step2, path_step3],
         "start_file": path_step1,
@@ -553,6 +768,8 @@ def generate_world(
                 "leads_to": path_step2,
                 "semantic_sector": step1_target_sector,
                 "semantic_purpose": step1_target_purpose,
+                "short_desc": step1_short,
+                "detailed_desc": step1_detailed,
             },
             {
                 "step": 2,
@@ -561,12 +778,16 @@ def generate_world(
                 "leads_to": path_step3,
                 "semantic_sector": step2_target_sector,
                 "semantic_purpose": step2_target_purpose,
+                "short_desc": step2_short,
+                "detailed_desc": step2_detailed,
             },
             {
                 "step": 3,
                 "file": path_step3,
                 "type": "terminal",
                 "secret_code": secret_code,
+                "short_desc": step3_short,
+                "detailed_desc": step3_detailed,
             },
         ],
         "distractors": [
@@ -575,12 +796,17 @@ def generate_world(
                 "type": "decoy",
                 "flaw": "Marked REVOKED/UNVERIFIED; breaks Rule 4.1 of the authenticated chain.",
                 "fake_code": fake_code,
+                "short_desc": decoy_short,
+                "detailed_desc": decoy_detailed,
             },
             {
                 "file": path_noise,
                 "type": "noise",
                 "description": t_noise_desc,
+                "short_desc": noise_short,
+                "detailed_desc": noise_detailed,
             },
+            *extra_distractors,
         ],
     }
 

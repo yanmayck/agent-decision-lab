@@ -215,6 +215,31 @@ class TestTreasureGraphGenerator(unittest.TestCase):
                 self.assertIn(decoy_meta["fake_code"], content)
                 self.assertNotEqual(decoy_meta["fake_code"], key["secret_code"])
 
+    def test_scalable_world_generation(self):
+        """Verifies generator creates exact file counts for sizes 5, 10, 20, 50, and 100."""
+        for size in [5, 10, 20, 50, 100]:
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                world_dir = Path(tmp_dir) / f"world_{size}"
+                key = generate_world(seed=42, output_dir=world_dir, language="pt-BR", total_files=size)
+                all_files = list(world_dir.glob("*/*.txt"))
+                self.assertEqual(len(all_files), size)
+                self.assertEqual(key["total_files"], size)
+
+    def test_solution_chain_invariance_across_scales(self):
+        """Verifies solution chain, clues, and secret code are identical across all environment sizes."""
+        base_key = None
+        for size in [5, 10, 20, 50, 100]:
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                world_dir = Path(tmp_dir) / f"world_{size}"
+                key = generate_world(seed=42, output_dir=world_dir, language="pt-BR", total_files=size)
+                if base_key is None:
+                    base_key = key
+                else:
+                    self.assertEqual(key["secret_code"], base_key["secret_code"])
+                    self.assertEqual(key["solution_path"], base_key["solution_path"])
+                    self.assertEqual(key["start_file"], base_key["start_file"])
+                    self.assertEqual(len(key["clue_chain"]), len(base_key["clue_chain"]))
+
 
 if __name__ == "__main__":
     unittest.main()

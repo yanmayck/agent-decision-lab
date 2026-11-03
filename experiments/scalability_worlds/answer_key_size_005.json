@@ -1,0 +1,64 @@
+{
+  "seed": 42,
+  "language": "pt-BR",
+  "total_files": 5,
+  "secret_code": "TESOURO-2679-HORIZON",
+  "solution_path": [
+    "arquivo/inicio_missao.txt",
+    "operacoes/registro_checkpoint.txt",
+    "cofre/acesso_terminal.txt"
+  ],
+  "start_file": "arquivo/inicio_missao.txt",
+  "folders": [
+    "arquivo",
+    "operacoes",
+    "cofre"
+  ],
+  "clue_chain": [
+    {
+      "step": 1,
+      "file": "arquivo/inicio_missao.txt",
+      "type": "semantic",
+      "leads_to": "operacoes/registro_checkpoint.txt",
+      "semantic_sector": "o escritório de gestão tática e centro de coordenação logística",
+      "semantic_purpose": "dados de autenticação intermediária e coordenadas de navegação",
+      "short_desc": "Briefing de Despacho e Diretrizes",
+      "detailed_desc": "Briefing formal de iniciação da missão com parâmetros operacionais e diretrizes para identificação da cadeia"
+    },
+    {
+      "step": 2,
+      "file": "operacoes/registro_checkpoint.txt",
+      "type": "direct",
+      "leads_to": "cofre/acesso_terminal.txt",
+      "semantic_sector": null,
+      "semantic_purpose": null,
+      "short_desc": "Registro de Checkpoint e Navegação",
+      "detailed_desc": "Registro de verificação intermediária de perímetro com coordenadas para o terminal seguro"
+    },
+    {
+      "step": 3,
+      "file": "cofre/acesso_terminal.txt",
+      "type": "terminal",
+      "secret_code": "TESOURO-2679-HORIZON",
+      "short_desc": "Console de Contenção e Isolamento",
+      "detailed_desc": "Terminal técnico do setor de segurança máxima para verificação e encerramento de procedimentos"
+    }
+  ],
+  "distractors": [
+    {
+      "file": "arquivo/aviso_seguranca.txt",
+      "type": "decoy",
+      "flaw": "Marked REVOKED/UNVERIFIED; breaks Rule 4.1 of the authenticated chain.",
+      "fake_code": "ISCA-7912-INVALID",
+      "short_desc": "Boletim de Transmissões Interceptadas",
+      "detailed_desc": "Aviso de segurança referente a transmissões externas captadas e notas sobre verificação de canais autenticados"
+    },
+    {
+      "file": "operacoes/diagnostico_sistema.txt",
+      "type": "noise",
+      "description": "pressão de sensores ambientais e diagnósticos da rede elétrica",
+      "short_desc": "Diagnóstico de Sensores Ambientais e Energia",
+      "detailed_desc": "pressão de sensores ambientais e diagnósticos da rede elétrica"
+    }
+  ]
+}

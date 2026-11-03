@@ -303,6 +303,40 @@ class TestMapGenerator(unittest.TestCase):
         self.assertEqual(len(paths), 1)
         self.assertEqual(paths[0], ["A", "B"])
 
+    def test_map_description_modes_none_short_detailed(self) -> None:
+        """Verifies semantic descriptions across none, short, and detailed modes with zero leaks."""
+        for desc_mode in ["none", "short", "detailed"]:
+            graph = generate_document_map(
+                self.answer_key,
+                mode=MapMode.COMPLETE,
+                description_mode=desc_mode,
+            )
+            agent_dict = graph.to_agent_dict()
+            self.assertEqual(len(agent_dict["nodes"]), 5)
+
+            for node in agent_dict["nodes"]:
+                if desc_mode == "none":
+                    self.assertNotIn("description", node)
+                else:
+                    self.assertIn("description", node)
+                    self.assertGreater(len(node["description"]), 0)
+
+            agent_json = json.dumps(agent_dict)
+            self.assertNotIn(self.answer_key["secret_code"], agent_json)
+            self.assertNotIn("is_terminal", agent_json)
+            self.assertNotIn("has_treasure", agent_json)
+
+    def test_map_scaling_to_100_nodes(self) -> None:
+        """Verifies DocumentGraph scales properly to 100 files."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            w_dir = Path(tmp_dir) / "world_100"
+            key = generate_world(seed=42, output_dir=w_dir, language="pt-BR", total_files=100)
+            graph = generate_document_map(key, mode=MapMode.COMPLETE)
+            self.assertEqual(len(graph.nodes), 100)
+            self.assertTrue(graph.is_solution_reachable())
+            agent_dict = graph.to_agent_dict()
+            self.assertEqual(agent_dict["node_count"], 100)
+
 
 if __name__ == "__main__":
     unittest.main()

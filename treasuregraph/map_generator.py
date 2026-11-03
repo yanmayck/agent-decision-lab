@@ -33,14 +33,21 @@ class DocumentNode:
     is_terminal: bool = False  # Evaluator only: contains secret code
     has_treasure: bool = False  # Evaluator only
     role: str = "document"  # Evaluator only: 'start', 'checkpoint', 'terminal', 'decoy', 'noise'
+    short_desc: str | None = None
+    detailed_desc: str | None = None
 
-    def to_agent_dict(self) -> dict[str, str]:
+    def to_agent_dict(self, description_mode: str = "none") -> dict[str, str]:
         """Sanitized representation for agent map: no secret, no role, uniform schema."""
-        return {
+        d: dict[str, str] = {
             "id": self.id,
             "folder": self.folder,
             "filename": self.filename,
         }
+        if description_mode in ("short", "curta", "descricao_curta"):
+            d["description"] = self.short_desc or ""
+        elif description_mode in ("detailed", "detalhada", "descricao_detalhada"):
+            d["description"] = self.detailed_desc or ""
+        return d
 
     def to_evaluator_dict(self) -> dict[str, Any]:
         """Full representation for external evaluator."""
@@ -51,6 +58,8 @@ class DocumentNode:
             "is_terminal": self.is_terminal,
             "has_treasure": self.has_treasure,
             "role": self.role,
+            "short_desc": self.short_desc,
+            "detailed_desc": self.detailed_desc,
         }
 
 
@@ -99,9 +108,11 @@ class DocumentGraph:
         terminal_node_id: str | None = None,
         secret_code: str | None = None,
         solution_path: list[str] | None = None,
+        description_mode: str = "none",
     ) -> None:
         self.seed = seed
         self.mode = MapMode(mode) if isinstance(mode, str) else mode
+        self.description_mode = description_mode
         self.nodes = list(nodes)
         self.true_edges = list(true_edges)
         self.fake_edges = list(fake_edges or [])
@@ -200,7 +211,7 @@ class DocumentGraph:
     # Serialization Views
     # -------------------------------------------------------------------------
 
-    def to_agent_dict(self) -> dict[str, Any]:
+    def to_agent_dict(self, description_mode: str | None = None) -> dict[str, Any]:
         """Generates the sanitized agent view.
 
         Guarantees:
@@ -210,12 +221,13 @@ class DocumentGraph:
         """
         sorted_nodes = sorted(self.nodes, key=lambda n: n.id)
         sorted_edges = self.active_edges()
+        active_desc_mode = description_mode if description_mode is not None else self.description_mode
 
         return {
             "format": "treasuregraph_digraph_v1",
             "node_count": len(sorted_nodes),
             "edge_count": len(sorted_edges),
-            "nodes": [n.to_agent_dict() for n in sorted_nodes],
+            "nodes": [n.to_agent_dict(active_desc_mode) for n in sorted_nodes],
             "edges": [e.to_agent_dict() for e in sorted_edges],
         }
 
@@ -333,6 +345,7 @@ def generate_document_map(
     num_fake_edges: int = 0,
     edge_drop_rate: float = 0.0,
     preserved_path: bool = True,
+    description_mode: str = "none",
 ) -> DocumentGraph:
     """Generates a directed DocumentGraph from an answer_key dict or world directory.
 
@@ -344,6 +357,7 @@ def generate_document_map(
         edge_drop_rate: Probability of dropping true edges in PARTIAL mode (0.0 to 1.0).
         preserved_path: If True in PARTIAL mode, ensures the solution path remains connected
             unless edge_drop_rate is explicitly 1.0.
+        description_mode: Level of topic detail in agent map ('none', 'short', 'detailed').
 
     Returns:
         DocumentGraph instance with both sanitized agent and evaluator views.
@@ -378,10 +392,26 @@ def generate_document_map(
     nodes: list[DocumentNode] = []
     seen_ids: set[str] = set()
 
+    clue_meta = {item.get("file"): item for item in clue_chain if item.get("file")}
+
     for idx, path_str in enumerate(solution_path):
         p = Path(path_str)
         is_terminal = (idx == len(solution_path) - 1)
         role = "start" if idx == 0 else ("terminal" if is_terminal else "checkpoint")
+        c_item = clue_meta.get(path_str, {})
+        s_desc = c_item.get("short_desc")
+        d_desc = c_item.get("detailed_desc")
+        if not s_desc:
+            if idx == 0:
+                s_desc = "Briefing de Despacho e Diretrizes"
+                d_desc = "Briefing formal de iniciação da missão com parâmetros operacionais e diretrizes para identificação da cadeia"
+            elif is_terminal:
+                s_desc = "Console de Contenção e Isolamento"
+                d_desc = "Terminal técnico do setor de segurança máxima para verificação e encerramento de procedimentos"
+            else:
+                s_desc = "Registro de Checkpoint e Navegação"
+                d_desc = "Registro de verificação intermediária de perímetro com coordenadas para o terminal seguro"
+
         node = DocumentNode(
             id=path_str,
             folder=p.parts[0] if len(p.parts) > 1 else "",
@@ -389,6 +419,8 @@ def generate_document_map(
             is_terminal=is_terminal,
             has_treasure=is_terminal,
             role=role,
+            short_desc=s_desc,
+            detailed_desc=d_desc,
         )
         nodes.append(node)
         seen_ids.add(path_str)
@@ -397,13 +429,26 @@ def generate_document_map(
         d_path = dist.get("file", "")
         if d_path and d_path not in seen_ids:
             p = Path(d_path)
+            s_desc = dist.get("short_desc")
+            d_desc = dist.get("detailed_desc")
+            d_type = dist.get("type", "distractor")
+            if not s_desc:
+                if d_type == "decoy":
+                    s_desc = "Boletim de Transmissões Interceptadas"
+                    d_desc = "Aviso de segurança referente a transmissões externas captadas e notas sobre verificação de canais autenticados"
+                else:
+                    s_desc = "Diagnóstico de Sensores Ambientais e Energia"
+                    d_desc = dist.get("description", "pressão de sensores ambientais e diagnósticos da rede elétrica")
+
             node = DocumentNode(
                 id=d_path,
                 folder=p.parts[0] if len(p.parts) > 1 else "",
                 filename=p.name,
                 is_terminal=False,
                 has_treasure=False,
-                role=dist.get("type", "distractor"),
+                role=d_type,
+                short_desc=s_desc,
+                detailed_desc=d_desc,
             )
             nodes.append(node)
             seen_ids.add(d_path)
@@ -487,4 +532,5 @@ def generate_document_map(
         terminal_node_id=terminal_id,
         secret_code=secret_code,
         solution_path=solution_path,
+        description_mode=description_mode,
     )
