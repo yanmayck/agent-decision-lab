@@ -1,0 +1,289 @@
+{
+  "status": "submitted",
+  "submitted_code": "TESOURO-2679-HORIZON",
+  "total_steps": 10,
+  "api_calls_count": 10,
+  "read_actions_count": 5,
+  "parallel_reads_count": 0,
+  "sequential_reads_count": 5,
+  "total_tool_cost": 5,
+  "read_cost_configured": 1,
+  "reasoning_effort": "high",
+  "total_duration_seconds": 0.0196,
+  "total_elapsed_seconds": 21.2466,
+  "total_tokens": {
+    "prompt_tokens": 9129,
+    "completion_tokens": 207,
+    "reasoning_tokens": 497,
+    "total_tokens": 9833
+  },
+  "trajectory": [
+    {
+      "step": 1,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "list_directory",
+        "arguments": {}
+      },
+      "action": "list_directory",
+      "arguments": {},
+      "result": "arquivo/ (directory)\ncofre/ (directory)\noperacoes/ (directory)",
+      "status": "success",
+      "duration_seconds": 0.00212,
+      "cost": 0,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 335,
+        "completion_tokens": 10,
+        "reasoning_tokens": 35,
+        "total_tokens": 380
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:00:14.999188+00:00"
+    },
+    {
+      "step": 2,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "list_directory",
+        "arguments": {
+          "path": "arquivo"
+        }
+      },
+      "action": "list_directory",
+      "arguments": {
+        "path": "arquivo"
+      },
+      "result": "arquivo/aviso_seguranca.txt (file)\narquivo/inicio_missao.txt (file)",
+      "status": "success",
+      "duration_seconds": 0.00255,
+      "cost": 0,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 412,
+        "completion_tokens": 16,
+        "reasoning_tokens": 45,
+        "total_tokens": 473
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:00:15.967333+00:00"
+    },
+    {
+      "step": 3,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "list_directory",
+        "arguments": {
+          "path": "cofre"
+        }
+      },
+      "action": "list_directory",
+      "arguments": {
+        "path": "cofre"
+      },
+      "result": "cofre/acesso_terminal.txt (file)",
+      "status": "success",
+      "duration_seconds": 0.00188,
+      "cost": 0,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 511,
+        "completion_tokens": 17,
+        "reasoning_tokens": 26,
+        "total_tokens": 554
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:00:16.885461+00:00"
+    },
+    {
+      "step": 4,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "list_directory",
+        "arguments": {
+          "path": "operacoes"
+        }
+      },
+      "action": "list_directory",
+      "arguments": {
+        "path": "operacoes"
+      },
+      "result": "operacoes/diagnostico_sistema.txt (file)\noperacoes/registro_checkpoint.txt (file)",
+      "status": "success",
+      "duration_seconds": 0.00264,
+      "cost": 0,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 579,
+        "completion_tokens": 17,
+        "reasoning_tokens": 10,
+        "total_tokens": 606
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:00:18.106169+00:00"
+    },
+    {
+      "step": 5,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "read_file",
+        "arguments": {
+          "path": "arquivo/inicio_missao.txt"
+        }
+      },
+      "action": "read_file",
+      "arguments": {
+        "path": "arquivo/inicio_missao.txt"
+      },
+      "result": "=== BRIEFING DO AGENTE: INICIAÇÃO DA MISSÃO ===\nSetor: Documentação Histórica e Registros\nAssunto: briefing de despacho e diretrizes procedimentais primárias\n\nBem-vindo, operativo. Um tesouro confidencial foi protegido nesta instalação.\nPara recuperar o código secreto, você deve seguir rigorosamente a cadeia autenticada.\n\nPróxima pista (Semântica): Prossiga até o escritório de gestão tática e centro de coordenação logística e examine o documento detalhando dados de autenticação intermediária e coordenadas de navegação.\n",
+      "status": "success",
+      "duration_seconds": 0.00212,
+      "cost": 1,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 644,
+        "completion_tokens": 23,
+        "reasoning_tokens": 64,
+        "total_tokens": 731
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:00:19.214654+00:00"
+    },
+    {
+      "step": 6,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "read_file",
+        "arguments": {
+          "path": "arquivo/aviso_seguranca.txt"
+        }
+      },
+      "action": "read_file",
+      "arguments": {
+        "path": "arquivo/aviso_seguranca.txt"
+      },
+      "result": "=== AVISO INTERCEPTADO (CONFIDENCIAL) ===\nSetor: Canal de Transmissão Não Verificado\nAssunto: Aviso de Segurança Não Verificado\n\nAviso: Relatório de agente alega que o código secreto é: ISCA-7912-INVALID\n\n[AVISO DE VERIFICAÇÃO LÓGICA]\n- Status: REVOGADO / NÃO VERIFICADO.\n- Motivo: Este aviso não pertence à sequência de briefing autenticada.\n- Regra 4.1: Códigos de tesouro genuínos seguem a cadeia autenticada de 3 etapas com início em 'arquivo/inicio_missao.txt'.\n- Qualquer código proveniente de avisos não verificados é uma armadilha simulada e deve ser descartado.\n",
+      "status": "success",
+      "duration_seconds": 0.00202,
+      "cost": 1,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 865,
+        "completion_tokens": 25,
+        "reasoning_tokens": 67,
+        "total_tokens": 957
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:00:20.302637+00:00"
+    },
+    {
+      "step": 7,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "read_file",
+        "arguments": {
+          "path": "cofre/acesso_terminal.txt"
+        }
+      },
+      "action": "read_file",
+      "arguments": {
+        "path": "cofre/acesso_terminal.txt"
+      },
+      "result": "=== TERMINAL DO COFRE SEGURO: ETAPA FINAL ===\nSetor: Contenção de Segurança Máxima\nAssunto: Console de Mainframe Restrito - interface de console do mainframe restrito e sobreposição de emergência\n\nAcesso concedido. Verificação da cadeia concluída.\n\nCÓDIGO SECRETO: TESOURO-2679-HORIZON\n\nRegistre este código secreto para concluir a missão.\n",
+      "status": "success",
+      "duration_seconds": 0.00205,
+      "cost": 1,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 1142,
+        "completion_tokens": 24,
+        "reasoning_tokens": 42,
+        "total_tokens": 1208
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:00:21.443715+00:00"
+    },
+    {
+      "step": 8,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "read_file",
+        "arguments": {
+          "path": "operacoes/diagnostico_sistema.txt"
+        }
+      },
+      "action": "read_file",
+      "arguments": {
+        "path": "operacoes/diagnostico_sistema.txt"
+      },
+      "result": "=== REGISTRO DE MANUTENÇÃO ROTINEIRA DA INSTALAÇÃO ===\nSetor: Suporte de Infraestrutura da Instalação\nAssunto: Diagnóstico de Sensores Ambientais e Energia - pressão de sensores ambientais e diagnósticos da rede elétrica\nInspetor ID: TECH-14\nStatus: Operações Normais\n- Pressão atmosférica: 101.3 kPa (Nominal)\n- Unidade de reciclagem de ar: Filtros substituídos na Seção 1\n- Dispensador de café: Limpo e reabastecido\nNenhum dado operacional ou relacionado à missão neste registro.\n",
+      "status": "success",
+      "duration_seconds": 0.00211,
+      "cost": 1,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 1315,
+        "completion_tokens": 25,
+        "reasoning_tokens": 97,
+        "total_tokens": 1437
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:00:22.552741+00:00"
+    },
+    {
+      "step": 9,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "read_file",
+        "arguments": {
+          "path": "operacoes/registro_checkpoint.txt"
+        }
+      },
+      "action": "read_file",
+      "arguments": {
+        "path": "operacoes/registro_checkpoint.txt"
+      },
+      "result": "=== ANÁLISE DE CHECKPOINT: ETAPA 2 ===\nSetor: Gestão Tática e Logística\nAssunto: Verificação de Checkpoint e Navegação - dados de autenticação intermediária e coordenadas de navegação\n\nAutenticação confirmada da Etapa 1.\nVocê está se aproximando do perímetro interno.\n\nPróxima pista (Direta): Mova-se diretamente para 'cofre/acesso_terminal.txt' onde reside o terminal final.\n",
+      "status": "success",
+      "duration_seconds": 0.00208,
+      "cost": 1,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 1586,
+        "completion_tokens": 23,
+        "reasoning_tokens": 14,
+        "total_tokens": 1623
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:00:23.472224+00:00"
+    },
+    {
+      "step": 10,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "submit_answer",
+        "arguments": {
+          "code": "TESOURO-2679-HORIZON"
+        }
+      },
+      "action": "submit_answer",
+      "arguments": {
+        "code": "TESOURO-2679-HORIZON"
+      },
+      "result": "Code 'TESOURO-2679-HORIZON' submitted successfully. Mission concluded.",
+      "status": "success",
+      "duration_seconds": 1e-05,
+      "cost": 0,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 1740,
+        "completion_tokens": 27,
+        "reasoning_tokens": 97,
+        "total_tokens": 1864
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:00:34.413617+00:00"
+    }
+  ],
+  "total_wall_clock_seconds": 21.2466
+}

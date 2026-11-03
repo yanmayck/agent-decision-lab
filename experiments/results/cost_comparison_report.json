@@ -1,0 +1,146 @@
+{
+  "metadata": {
+    "model": "gemini-3.5-flash-lite",
+    "reasoning_effort": "high",
+    "environment": "experiments\\world_pt_001",
+    "seed": 42,
+    "solution_path": [
+      "arquivo/inicio_missao.txt",
+      "operacoes/registro_checkpoint.txt",
+      "cofre/acesso_terminal.txt"
+    ],
+    "correct_code": "TESOURO-2679-HORIZON"
+  },
+  "condition_a_nocost": {
+    "condition_id": "A",
+    "cost_per_read": 0,
+    "is_correct": true,
+    "submitted_code": "TESOURO-2679-HORIZON",
+    "total_actions": 10,
+    "api_calls_count": 5,
+    "reads_requested_count": 5,
+    "parallel_reads_count": 5,
+    "sequential_reads_count": 0,
+    "is_sequential_clue_following": false,
+    "files_consulted": [
+      "arquivo/aviso_seguranca.txt",
+      "arquivo/inicio_missao.txt",
+      "cofre/acesso_terminal.txt",
+      "operacoes/diagnostico_sistema.txt",
+      "operacoes/registro_checkpoint.txt"
+    ],
+    "unnecessary_files_consulted": [
+      "arquivo/aviso_seguranca.txt",
+      "operacoes/diagnostico_sistema.txt"
+    ],
+    "total_tool_cost": 0,
+    "tokens": {
+      "prompt_tokens": 4190,
+      "completion_tokens": 207,
+      "reasoning_tokens": 521,
+      "total_tokens": 4918
+    },
+    "wall_clock_duration_seconds": 5.9121,
+    "tool_duration_seconds": 0.0209,
+    "actions_sequence": [
+      "1. list_directory({}) [paralelo=False, custo=0]",
+      "2. list_directory({'path': 'arquivo'}) [paralelo=True, custo=0]",
+      "3. list_directory({'path': 'cofre'}) [paralelo=True, custo=0]",
+      "4. list_directory({'path': 'operacoes'}) [paralelo=True, custo=0]",
+      "5. read_file({'path': 'arquivo/aviso_seguranca.txt'}) [paralelo=True, custo=0]",
+      "6. read_file({'path': 'arquivo/inicio_missao.txt'}) [paralelo=True, custo=0]",
+      "7. read_file({'path': 'cofre/acesso_terminal.txt'}) [paralelo=True, custo=0]",
+      "8. read_file({'path': 'operacoes/diagnostico_sistema.txt'}) [paralelo=True, custo=0]",
+      "9. read_file({'path': 'operacoes/registro_checkpoint.txt'}) [paralelo=True, custo=0]",
+      "11. submit_answer({'code': 'TESOURO-2679-HORIZON'}) [paralelo=False, custo=0]"
+    ]
+  },
+  "condition_b_cost1": {
+    "condition_id": "B",
+    "cost_per_read": 1,
+    "is_correct": true,
+    "submitted_code": "TESOURO-2679-HORIZON",
+    "total_actions": 10,
+    "api_calls_count": 10,
+    "reads_requested_count": 5,
+    "parallel_reads_count": 0,
+    "sequential_reads_count": 5,
+    "is_sequential_clue_following": true,
+    "files_consulted": [
+      "arquivo/inicio_missao.txt",
+      "arquivo/aviso_seguranca.txt",
+      "cofre/acesso_terminal.txt",
+      "operacoes/diagnostico_sistema.txt",
+      "operacoes/registro_checkpoint.txt"
+    ],
+    "unnecessary_files_consulted": [
+      "arquivo/aviso_seguranca.txt",
+      "operacoes/diagnostico_sistema.txt"
+    ],
+    "total_tool_cost": 5,
+    "tokens": {
+      "prompt_tokens": 9129,
+      "completion_tokens": 207,
+      "reasoning_tokens": 497,
+      "total_tokens": 9833
+    },
+    "wall_clock_duration_seconds": 21.2466,
+    "tool_duration_seconds": 0.0196,
+    "actions_sequence": [
+      "1. list_directory({}) [paralelo=False, custo=0]",
+      "2. list_directory({'path': 'arquivo'}) [paralelo=False, custo=0]",
+      "3. list_directory({'path': 'cofre'}) [paralelo=False, custo=0]",
+      "4. list_directory({'path': 'operacoes'}) [paralelo=False, custo=0]",
+      "5. read_file({'path': 'arquivo/inicio_missao.txt'}) [paralelo=False, custo=1]",
+      "6. read_file({'path': 'arquivo/aviso_seguranca.txt'}) [paralelo=False, custo=1]",
+      "7. read_file({'path': 'cofre/acesso_terminal.txt'}) [paralelo=False, custo=1]",
+      "8. read_file({'path': 'operacoes/diagnostico_sistema.txt'}) [paralelo=False, custo=1]",
+      "9. read_file({'path': 'operacoes/registro_checkpoint.txt'}) [paralelo=False, custo=1]",
+      "10. submit_answer({'code': 'TESOURO-2679-HORIZON'}) [paralelo=False, custo=0]"
+    ]
+  },
+  "condition_c_cost10": {
+    "condition_id": "C",
+    "cost_per_read": 10,
+    "is_correct": true,
+    "submitted_code": "TESOURO-2679-HORIZON",
+    "total_actions": 10,
+    "api_calls_count": 10,
+    "reads_requested_count": 5,
+    "parallel_reads_count": 0,
+    "sequential_reads_count": 5,
+    "is_sequential_clue_following": true,
+    "files_consulted": [
+      "arquivo/inicio_missao.txt",
+      "arquivo/aviso_seguranca.txt",
+      "cofre/acesso_terminal.txt",
+      "operacoes/diagnostico_sistema.txt",
+      "operacoes/registro_checkpoint.txt"
+    ],
+    "unnecessary_files_consulted": [
+      "arquivo/aviso_seguranca.txt",
+      "operacoes/diagnostico_sistema.txt"
+    ],
+    "total_tool_cost": 50,
+    "tokens": {
+      "prompt_tokens": 9159,
+      "completion_tokens": 213,
+      "reasoning_tokens": 498,
+      "total_tokens": 9870
+    },
+    "wall_clock_duration_seconds": 46.3389,
+    "tool_duration_seconds": 0.0174,
+    "actions_sequence": [
+      "1. list_directory({'path': '.'}) [paralelo=False, custo=0]",
+      "2. list_directory({'path': 'arquivo'}) [paralelo=False, custo=0]",
+      "3. list_directory({'path': 'cofre'}) [paralelo=False, custo=0]",
+      "4. list_directory({'path': 'operacoes'}) [paralelo=False, custo=0]",
+      "5. read_file({'path': 'arquivo/inicio_missao.txt'}) [paralelo=False, custo=10]",
+      "6. read_file({'path': 'arquivo/aviso_seguranca.txt'}) [paralelo=False, custo=10]",
+      "7. read_file({'path': 'cofre/acesso_terminal.txt'}) [paralelo=False, custo=10]",
+      "8. read_file({'path': 'operacoes/diagnostico_sistema.txt'}) [paralelo=False, custo=10]",
+      "9. read_file({'path': 'operacoes/registro_checkpoint.txt'}) [paralelo=False, custo=10]",
+      "10. submit_answer({'code': 'TESOURO-2679-HORIZON'}) [paralelo=False, custo=0]"
+    ]
+  }
+}

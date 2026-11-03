@@ -230,6 +230,7 @@ class BaselineAgent:
         system_prompt: str = DEFAULT_SYSTEM_PROMPT,
         reasoning_effort: str | None = None,
         include_thoughts: bool | None = None,
+        read_cost: int = 0,
     ) -> None:
         """Initializes the baseline agent.
 
@@ -243,6 +244,7 @@ class BaselineAgent:
             system_prompt: Baseline instructions for the agent.
             reasoning_effort: Optional reasoning effort level ('low', 'medium', 'high').
             include_thoughts: Optional boolean to request thought summaries from models that support it.
+            read_cost: Optional cost per read_file action presented to the agent.
         """
         # Load local .env if available
         load_dotenv()
@@ -286,7 +288,21 @@ class BaselineAgent:
 
         self.max_steps = max_steps
         self.llm_client = llm_client
-        self.system_prompt = system_prompt
+        self.read_cost = read_cost
+
+        # Configure system prompt and tools schema with cost information when applicable
+        if self.read_cost > 0:
+            cost_directive = f"\nNota de custo operacional: Cada chamada de read_file possui um custo explícito de {self.read_cost} unidade(s). Minimize custos desnecessários."
+            self.system_prompt = system_prompt + cost_directive
+        else:
+            self.system_prompt = system_prompt
+
+        self.tools_schema = json.loads(json.dumps(TOOLS_SCHEMA))
+        if self.read_cost > 0:
+            for tool_item in self.tools_schema:
+                if tool_item.get("function", {}).get("name") == "read_file":
+                    tool_item["function"]["description"] += f" (Custo operacional: {self.read_cost} unidade(s) por leitura)."
+
         self.reasoning_effort = (
             reasoning_effort or os.getenv("TREASURE_REASONING_EFFORT")
         )
@@ -393,7 +409,7 @@ class BaselineAgent:
         payload: dict[str, Any] = {
             "model": self.model,
             "messages": messages,
-            "tools": TOOLS_SCHEMA,
+            "tools": self.tools_schema,
             "tool_choice": "auto",
         }
         if self.reasoning_effort:
@@ -452,12 +468,15 @@ class BaselineAgent:
 
         run_start_time = time.perf_counter()
         step_count = 0
+        api_calls_count = 0
         total_prompt_tokens = 0
         total_completion_tokens = 0
         total_reasoning_tokens = 0
+        total_tool_cost = 0
 
         while step_count < self.max_steps and not self.finished:
             # Call LLM
+            api_calls_count += 1
             llm_response = self._call_llm(messages)
 
             # Extract token usage
@@ -495,6 +514,8 @@ class BaselineAgent:
                 step_count += 1
                 continue
 
+            is_parallel_batch = len(tool_calls) > 1
+
             for tool_call in tool_calls:
                 if self.finished or step_count >= self.max_steps:
                     break
@@ -513,15 +534,16 @@ class BaselineAgent:
                 else:
                     args = raw_args
 
+                # Cost accounting
+                action_cost = self.read_cost if tool_name == "read_file" else 0
+                total_tool_cost += action_cost
+
                 # Execute tool with timing
                 t0 = time.perf_counter()
                 result_text, is_error = self.execute_tool(tool_name, args)
                 duration = time.perf_counter() - t0
 
-                # Record action metric with clear separation of concepts:
-                # 1. thought_summary: reasoning process text (null if omitted by API)
-                # 2. observable_decision: concrete external action and arguments
-                # 3. tokens.reasoning_tokens: quantitative reasoning token count
+                # Record action metric
                 action_record = {
                     "step": step_count,
                     "thought_summary": thought_summary,
@@ -534,6 +556,8 @@ class BaselineAgent:
                     "result": result_text,
                     "status": "error" if is_error else "success",
                     "duration_seconds": round(duration, 5),
+                    "cost": action_cost,
+                    "is_parallel": is_parallel_batch,
                     "tokens": {
                         "prompt_tokens": prompt_tokens,
                         "completion_tokens": completion_tokens,
@@ -565,10 +589,19 @@ class BaselineAgent:
         total_duration = sum(item["duration_seconds"] for item in self.trajectory)
         total_elapsed = time.perf_counter() - run_start_time
 
+        read_actions = [a for a in self.trajectory if a["action"] == "read_file"]
+        parallel_reads = [a for a in read_actions if a.get("is_parallel")]
+
         return {
             "status": status,
             "submitted_code": self.submitted_code,
             "total_steps": len(self.trajectory),
+            "api_calls_count": api_calls_count,
+            "read_actions_count": len(read_actions),
+            "parallel_reads_count": len(parallel_reads),
+            "sequential_reads_count": len(read_actions) - len(parallel_reads),
+            "total_tool_cost": total_tool_cost,
+            "read_cost_configured": self.read_cost,
             "reasoning_effort": self.reasoning_effort,
             "total_duration_seconds": round(total_duration, 4),
             "total_elapsed_seconds": round(total_elapsed, 4),
