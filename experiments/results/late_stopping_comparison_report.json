@@ -1,0 +1,103 @@
+{
+  "metadata": {
+    "model": "gemini-3.5-flash-lite",
+    "reasoning_effort": "high",
+    "environment": "experiments\\world_pt_001",
+    "seed": 42,
+    "intervention_text": "Quando encontrar o código secreto e tiver evidência suficiente de que ele é válido, submeta imediatamente a resposta, sem continuar explorando."
+  },
+  "condition_a_control": {
+    "is_correct": true,
+    "submitted_code": "TESOURO-2679-HORIZON",
+    "total_actions": 10,
+    "code_revealed_at_step": 7,
+    "actions_after_finding_code": 3,
+    "exploratory_actions_after_finding_code": 2,
+    "post_code_action_details": [
+      "8. read_file({'path': 'operacoes/diagnostico_sistema.txt'})",
+      "9. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
+      "10. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
+    ],
+    "files_consulted": [
+      "arquivo/inicio_missao.txt",
+      "arquivo/aviso_seguranca.txt",
+      "cofre/acesso_terminal.txt",
+      "operacoes/diagnostico_sistema.txt",
+      "operacoes/registro_checkpoint.txt"
+    ],
+    "unnecessary_files_consulted": [
+      "arquivo/aviso_seguranca.txt",
+      "operacoes/diagnostico_sistema.txt"
+    ],
+    "actions_sequence": [
+      "1. list_directory({})",
+      "2. list_directory({'path': 'arquivo'})",
+      "3. list_directory({'path': 'cofre'})",
+      "4. list_directory({'path': 'operacoes'})",
+      "5. read_file({'path': 'arquivo/inicio_missao.txt'})",
+      "6. read_file({'path': 'arquivo/aviso_seguranca.txt'})",
+      "7. read_file({'path': 'cofre/acesso_terminal.txt'})",
+      "8. read_file({'path': 'operacoes/diagnostico_sistema.txt'})",
+      "9. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
+      "10. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
+    ],
+    "tokens": {
+      "prompt_tokens": 8662,
+      "completion_tokens": 207,
+      "reasoning_tokens": 561,
+      "total_tokens": 9430
+    },
+    "wall_clock_duration_seconds": 11.0068,
+    "tool_duration_seconds": 0.02
+  },
+  "condition_b_intervention": {
+    "is_correct": true,
+    "submitted_code": "TESOURO-2679-HORIZON",
+    "total_actions": 10,
+    "code_revealed_at_step": 7,
+    "actions_after_finding_code": 3,
+    "exploratory_actions_after_finding_code": 2,
+    "post_code_action_details": [
+      "8. read_file({'path': 'operacoes/diagnostico_sistema.txt'})",
+      "9. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
+      "10. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
+    ],
+    "files_consulted": [
+      "arquivo/aviso_seguranca.txt",
+      "arquivo/inicio_missao.txt",
+      "cofre/acesso_terminal.txt",
+      "operacoes/diagnostico_sistema.txt",
+      "operacoes/registro_checkpoint.txt"
+    ],
+    "unnecessary_files_consulted": [
+      "arquivo/aviso_seguranca.txt",
+      "operacoes/diagnostico_sistema.txt"
+    ],
+    "actions_sequence": [
+      "1. list_directory({})",
+      "2. list_directory({'path': 'arquivo'})",
+      "3. list_directory({'path': 'cofre'})",
+      "4. list_directory({'path': 'operacoes'})",
+      "5. read_file({'path': 'arquivo/aviso_seguranca.txt'})",
+      "6. read_file({'path': 'arquivo/inicio_missao.txt'})",
+      "7. read_file({'path': 'cofre/acesso_terminal.txt'})",
+      "8. read_file({'path': 'operacoes/diagnostico_sistema.txt'})",
+      "9. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
+      "10. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
+    ],
+    "tokens": {
+      "prompt_tokens": 2832,
+      "completion_tokens": 207,
+      "reasoning_tokens": 578,
+      "total_tokens": 3617
+    },
+    "wall_clock_duration_seconds": 6.0014,
+    "tool_duration_seconds": 0.0225
+  },
+  "delta": {
+    "actions_delta (B - A)": 0,
+    "post_code_exploratory_actions_delta (B - A)": 0,
+    "tokens_delta (B - A)": -5813,
+    "wall_clock_seconds_delta (B - A)": -5.0054
+  }
+}
