@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_100.txt ===
+Assunto: Desvio de Frequência de Base Temporal 5
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.

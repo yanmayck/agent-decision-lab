@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_087.txt ===
+Assunto: Perfil Espectral de Radiofrequência 5
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.

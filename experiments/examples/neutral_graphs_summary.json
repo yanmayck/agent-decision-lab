@@ -1,0 +1,73 @@
+{
+  "10": {
+    "secret_code": "TESOURO-9935-ORION",
+    "solution_path": [
+      "doc_001.txt",
+      "doc_003.txt",
+      "doc_002.txt"
+    ],
+    "start_file": "doc_001.txt",
+    "stats": {
+      "node_count": 10,
+      "edge_count": 9,
+      "connected_components_count": 3,
+      "isolated_nodes_count": 0,
+      "dead_ends_count": 3,
+      "branching_nodes_count": 2,
+      "cycles_count": 1,
+      "candidate_paths_from_start": 2,
+      "total_candidate_paths": 3,
+      "is_topologically_ambiguous": true
+    },
+    "candidate_paths_start": [
+      [
+        "doc_001.txt",
+        "doc_003.txt",
+        "doc_002.txt"
+      ],
+      [
+        "doc_001.txt",
+        "doc_007.txt",
+        "doc_004.txt"
+      ]
+    ]
+  },
+  "100": {
+    "secret_code": "TESOURO-4456-ZENITH",
+    "solution_path": [
+      "doc_001.txt",
+      "doc_083.txt",
+      "doc_016.txt"
+    ],
+    "start_file": "doc_001.txt",
+    "stats": {
+      "node_count": 100,
+      "edge_count": 105,
+      "connected_components_count": 5,
+      "isolated_nodes_count": 0,
+      "dead_ends_count": 50,
+      "branching_nodes_count": 29,
+      "cycles_count": 2,
+      "candidate_paths_from_start": 3,
+      "total_candidate_paths": 29,
+      "is_topologically_ambiguous": true
+    },
+    "candidate_paths_start": [
+      [
+        "doc_001.txt",
+        "doc_005.txt",
+        "doc_096.txt"
+      ],
+      [
+        "doc_001.txt",
+        "doc_037.txt",
+        "doc_033.txt"
+      ],
+      [
+        "doc_001.txt",
+        "doc_083.txt",
+        "doc_016.txt"
+      ]
+    ]
+  }
+}

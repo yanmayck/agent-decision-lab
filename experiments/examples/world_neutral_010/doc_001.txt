@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_001.txt ===
+Assunto: Dissipação Térmica de Processadores
+Status Operacional: Verificado
+
+Parâmetros operacionais verificados e registrados em conformidade técnica.
+Para prosseguir na cadeia de verificação, examine o documento doc_003.txt com os registros de telemetria.

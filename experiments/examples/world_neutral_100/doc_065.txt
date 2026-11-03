@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_065.txt ===
+Assunto: Leituras de Fluxo de Ar e Climatização 4
+Status Operacional: Verificado
+
+Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.
+Referência técnica cruzada: consulte o documento doc_081.txt para especificações complementares.

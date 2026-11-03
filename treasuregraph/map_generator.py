@@ -488,9 +488,22 @@ def generate_document_map(
             if len(true_edges) > 1:
                 active_true_edges = true_edges[:-1]
 
-    # 5. Handle Fake Edges (Noisy Mode)
+    # 5. Handle Distractor Edges (from answer_key if present, or Noisy mode)
     fake_edges: list[DirectedEdge] = []
-    if map_mode == MapMode.NOISY or num_fake_edges > 0:
+    distractor_edges_raw = answer_key.get("distractor_edges", [])
+    if distractor_edges_raw:
+        for de in distractor_edges_raw:
+            fake_edges.append(
+                DirectedEdge(
+                    source=de["source"],
+                    target=de["target"],
+                    is_true_clue=False,
+                    clue_type="distractor",
+                    step=None,
+                    metadata="Real distractor connection in world",
+                )
+            )
+    elif map_mode == MapMode.NOISY or num_fake_edges > 0:
         target_fake_count = num_fake_edges if num_fake_edges > 0 else 2
         all_node_ids = sorted(seen_ids)
         true_pairs = {(e.source, e.target) for e in true_edges}
@@ -534,3 +547,137 @@ def generate_document_map(
         solution_path=solution_path,
         description_mode=description_mode,
     )
+
+
+def solve_topology_only(
+    doc_map: DocumentGraph | dict[str, Any],
+    start_node_id: str | None = None,
+    path_length: int = 2,
+) -> list[list[str]]:
+    """Analyzes ONLY the graph topology (nodes and edges) to find candidate paths.
+
+    Simulates an algorithm that receives no textual contents, only (V, E) and node IDs.
+    Returns all simple directed paths of `path_length` edges starting from start_node_id
+    (or from all candidate root nodes with in-degree == 0 if start_node_id is None).
+    Used as an objective sanity test for topological indistinguishability.
+    """
+    if isinstance(doc_map, dict):
+        agent_dict = doc_map
+    else:
+        agent_dict = doc_map.to_agent_dict()
+
+    nodes = [n["id"] for n in agent_dict["nodes"]]
+    edges = [(e["source"], e["target"]) for e in agent_dict["edges"]]
+
+    adj: dict[str, list[str]] = {n: [] for n in nodes}
+    in_degree: dict[str, int] = {n: 0 for n in nodes}
+    for src, tgt in edges:
+        adj[src].append(tgt)
+        in_degree[tgt] = in_degree.get(tgt, 0) + 1
+
+    if start_node_id and start_node_id in adj:
+        root_nodes = [start_node_id]
+    else:
+        root_nodes = [n for n in nodes if in_degree[n] == 0]
+        if not root_nodes:
+            root_nodes = list(nodes)
+
+    candidate_paths: list[list[str]] = []
+
+    def dfs(curr: str, current_path: list[str]) -> None:
+        if len(current_path) == path_length + 1:
+            candidate_paths.append(list(current_path))
+            return
+        for nxt in sorted(adj.get(curr, [])):
+            if nxt not in current_path:  # Avoid cycles
+                current_path.append(nxt)
+                dfs(nxt, current_path)
+                current_path.pop()
+
+    for root in sorted(root_nodes):
+        dfs(root, [root])
+
+    return candidate_paths
+
+
+def compute_graph_statistics(
+    doc_map: DocumentGraph | dict[str, Any],
+    solution_path: list[str] | None = None,
+    start_node_id: str | None = None,
+) -> dict[str, Any]:
+    """Computes comprehensive graph topology metrics for evaluation and sanity checking."""
+    if isinstance(doc_map, dict):
+        agent_dict = doc_map
+    else:
+        agent_dict = doc_map.to_agent_dict()
+
+    nodes = [n["id"] for n in agent_dict["nodes"]]
+    edges = [(e["source"], e["target"]) for e in agent_dict["edges"]]
+
+    in_deg: dict[str, int] = {n: 0 for n in nodes}
+    out_deg: dict[str, int] = {n: 0 for n in nodes}
+    adj_undirected: dict[str, set[str]] = {n: set() for n in nodes}
+
+    for src, tgt in edges:
+        out_deg[src] += 1
+        in_deg[tgt] += 1
+        adj_undirected[src].add(tgt)
+        adj_undirected[tgt].add(src)
+
+    isolated_nodes = [n for n in nodes if in_deg[n] == 0 and out_deg[n] == 0]
+    dead_ends = [n for n in nodes if in_deg[n] > 0 and out_deg[n] == 0]
+    branching_nodes = [n for n in nodes if out_deg[n] > 1]
+
+    # Weakly connected components
+    visited: set[str] = set()
+    components: list[list[str]] = []
+    for n in nodes:
+        if n not in visited:
+            comp: list[str] = []
+            queue = [n]
+            visited.add(n)
+            for curr in queue:
+                comp.append(curr)
+                for neighbor in adj_undirected[curr]:
+                    if neighbor not in visited:
+                        visited.add(neighbor)
+                        queue.append(neighbor)
+            components.append(comp)
+
+    # Detect directed cycles
+    cycles: list[tuple[str, ...]] = []
+    edge_set = set(edges)
+    for start_n in nodes:
+        def dfs_cycle(curr: str, path: list[str]) -> None:
+            for src, tgt in edge_set:
+                if src == curr:
+                    if tgt == start_n and len(path) >= 2:
+                        norm = tuple(sorted(path))
+                        if norm not in cycles:
+                            cycles.append(norm)
+                    elif tgt not in path and len(path) < 4:
+                        dfs_cycle(tgt, path + [tgt])
+        dfs_cycle(start_n, [start_n])
+
+    effective_start = start_node_id
+    if not effective_start and solution_path:
+        effective_start = solution_path[0]
+    elif not effective_start and nodes:
+        effective_start = nodes[0]
+
+    candidate_paths_start = solve_topology_only(agent_dict, start_node_id=effective_start, path_length=2)
+    total_candidate_paths = solve_topology_only(agent_dict, start_node_id=None, path_length=2)
+
+    return {
+        "node_count": len(nodes),
+        "edge_count": len(edges),
+        "connected_components_count": len(components),
+        "isolated_nodes_count": len(isolated_nodes),
+        "dead_ends_count": len(dead_ends),
+        "branching_nodes_count": len(branching_nodes),
+        "cycles_count": len(cycles),
+        "candidate_paths_from_start": len(candidate_paths_start),
+        "total_candidate_paths": len(total_candidate_paths),
+        "candidate_paths_start_list": candidate_paths_start,
+        "is_topologically_ambiguous": len(candidate_paths_start) > 1,
+    }

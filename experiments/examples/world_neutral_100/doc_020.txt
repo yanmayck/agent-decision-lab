@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_020.txt ===
+Assunto: Desvio de Frequência de Base Temporal
+Status Operacional: Verificado
+
+Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.
+Referência técnica cruzada: consulte o documento doc_038.txt para especificações complementares.

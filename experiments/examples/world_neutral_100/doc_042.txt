@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_042.txt ===
+Assunto: Telemetria de Barramentos da Subestação 3
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.

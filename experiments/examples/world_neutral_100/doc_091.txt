@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_091.txt ===
+Assunto: Métricas de Pacotes de Barramento 5
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.

@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_005.txt ===
+Assunto: Perfil de Atenuação de Fibra Óptica
+Status Operacional: Verificado
+
+Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.
+Referência técnica cruzada: consulte o documento doc_009.txt para especificações complementares.

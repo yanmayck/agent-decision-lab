@@ -246,6 +246,170 @@ CODE_WORDS = [
     "CHRONOS", "VALKYRIE", "ECLIPSE", "HORIZON", "ZENITH"
 ]
 
+# Expanded neutral engineering topics for neutral world generation (no functional/mission clues)
+NEUTRAL_TECHNICAL_TOPICS = [
+    {
+        "short_en": "Analog Instrumentation Calibration",
+        "short_pt": "Calibração de Instrumentos Analógicos",
+        "detailed_en": "Periodic technical verification and zero-offset calibration of pressure transducers",
+        "detailed_pt": "Aferição técnica periódica e ajuste de zero de transdutores de pressão analógicos",
+        "subject_en": "Pressure Transducer Calibration",
+        "subject_pt": "Calibração de Transdutores de Pressão",
+    },
+    {
+        "short_en": "HVAC Environmental Telemetry",
+        "short_pt": "Telemetria de Climatização Ambiental",
+        "detailed_en": "Chilled water loop flow rates and air handling unit motor telemetry",
+        "detailed_pt": "Vazão de água gelada e telemetria de motores das unidades de tratamento de ar",
+        "subject_en": "HVAC Air Flow Readings",
+        "subject_pt": "Leituras de Fluxo de Ar e Climatização",
+    },
+    {
+        "short_en": "Sanitary Waste Disposal Protocol",
+        "short_pt": "Protocolo de Descarte Sanitário",
+        "detailed_en": "Custody transfer documentation for recycled hydraulic fluid and cleanroom filters",
+        "detailed_pt": "Documentação de transferência de custódia para óleo hidráulico e filtros de sala limpa",
+        "subject_en": "Industrial Waste Disposal",
+        "subject_pt": "Descarte de Resíduos Industriais",
+    },
+    {
+        "short_en": "Technical Shift Duty Roster",
+        "short_pt": "Escala Semanal de Turnos Técnicos",
+        "detailed_en": "Duty supervisor assignments and technical rotation schedules for facility maintenance",
+        "detailed_pt": "Escala de supervisores e turnos de rotação técnica de manutenção predial",
+        "subject_en": "Facility Operations Duty Roster",
+        "subject_pt": "Escala de Operações e Manutenção",
+    },
+    {
+        "short_en": "Substation Power Distribution Log",
+        "short_pt": "Diagnóstico de Distribuição Elétrica",
+        "detailed_en": "Harmonic distortion readings, transformer temperature logs, and busbar telemetry",
+        "detailed_pt": "Leituras de distorção harmônica, temperatura de transformadores e barramentos",
+        "subject_en": "Substation Busbar Telemetry",
+        "subject_pt": "Telemetria de Barramentos da Subestação",
+    },
+    {
+        "short_en": "Structural Facility Integrity Check",
+        "short_pt": "Inspeção Estrutural da Instalação",
+        "detailed_en": "Seismic damping joint expansion measurements and expansion joint seal audit",
+        "detailed_pt": "Medições de dilatação em juntas estruturais e vedação de juntas de expansão",
+        "subject_en": "Structural Joint Inspection",
+        "subject_pt": "Inspeção de Juntas Estruturais",
+    },
+    {
+        "short_en": "Consumables Inventory Requisition",
+        "short_pt": "Requisição de Suprimentos de Consumo",
+        "detailed_en": "Standard replenishment order for lubricants, wipes, and PPE cartridges",
+        "detailed_pt": "Pedido padrão de reposição de lubrificantes, panos industriais e filtros de EPI",
+        "subject_en": "Consumable Stock Replenishment",
+        "subject_pt": "Reposição de Estoque de Consumíveis",
+    },
+    {
+        "short_en": "Hydraulic Auxiliary Pump Inspection",
+        "short_pt": "Inspeção de Bombas Hidráulicas",
+        "detailed_en": "Differential pressure across primary filters and oil reservoir temperature audit",
+        "detailed_pt": "Pressão diferencial em filtros principais e auditoria térmica do reservatório de óleo",
+        "subject_en": "Hydraulic Pump Circuit Audit",
+        "subject_pt": "Auditoria de Circuitos Hidráulicos",
+    },
+    {
+        "short_en": "Emergency Lighting Battery Test",
+        "short_pt": "Teste de Baterias de Emergência",
+        "detailed_en": "Discharge test cycle for backup LED arrays and decentralized battery banks",
+        "detailed_pt": "Ciclo de teste de descarga de luminárias LED de emergência e bancos de baterias",
+        "subject_en": "Emergency Power Battery Bank",
+        "subject_pt": "Banco de Baterias de Emergência",
+    },
+    {
+        "short_en": "Fire Suppression Nozzle Verification",
+        "short_pt": "Verificação de Bicos de Incêndio",
+        "detailed_en": "Inert gas cylinder hydrostatic pressure check and discharge valve seal verification",
+        "detailed_pt": "Inspeção de pressão hidrostática de cilindros de gás inerte e lacres de válvulas",
+        "subject_en": "Inert Gas Suppression Cylinders",
+        "subject_pt": "Cilindros de Supressão por Gás Inerte",
+    },
+    {
+        "short_en": "Refrigeration Chiller Performance Log",
+        "short_pt": "Registro de Operação de Chillers",
+        "detailed_en": "Compressor vibration analysis, evaporator approach temperature, and refrigerant levels",
+        "detailed_pt": "Análise de vibração de compressores, temperatura de aproximação e nível de refrigerante",
+        "subject_en": "Chiller Compressor Vibration",
+        "subject_pt": "Vibração de Compressores de Chillers",
+    },
+    {
+        "short_en": "Backup Diesel Generator Test",
+        "short_pt": "Ensaio de Gerador Diesel Auxiliar",
+        "detailed_en": "Cold crank sequencing, automatic transfer switch timing, and exhaust temperature check",
+        "detailed_pt": "Sequência de partida a frio, tempo de comutação da chave de transferência e exaustão",
+        "subject_en": "Generator ATS Switch Timing",
+        "subject_pt": "Tempo de Comutação do Gerador",
+    },
+    {
+        "short_en": "Serial Bus Telemetry Log",
+        "short_pt": "Telemetria de Barramento Serial",
+        "detailed_en": "Packet synchronization rates, frame error telemetry, and parity verification",
+        "detailed_pt": "Taxa de sincronização de pacotes, telemetria de erros de quadro e verificação de paridade",
+        "subject_en": "Serial Bus Packet Metrics",
+        "subject_pt": "Métricas de Pacotes de Barramento",
+    },
+    {
+        "short_en": "Network Redundancy Specification",
+        "short_pt": "Especificação de Redundância de Rede",
+        "detailed_en": "Topology routing table convergence timings and failover latency measurements",
+        "detailed_pt": "Tempo de convergência de tabelas de roteamento e latência de comutação por falha",
+        "subject_en": "Routing Table Convergence",
+        "subject_pt": "Convergência de Roteamento de Rede",
+    },
+    {
+        "short_en": "Processing Unit Efficiency Report",
+        "short_pt": "Eficiência Térmica de Processamento",
+        "detailed_en": "Power usage effectiveness calculations and heat sink thermal gradient metrics",
+        "detailed_pt": "Cálculos de eficiência energética e gradiente térmico de dissipadores de calor",
+        "subject_en": "Processor Thermal Dissipation",
+        "subject_pt": "Dissipação Térmica de Processadores",
+    },
+    {
+        "short_en": "Optical Fiber Interface Survey",
+        "short_pt": "Inspeção de Interfaces Ópticas",
+        "detailed_en": "Optical signal attenuation per kilometer and optical connector face cleanliness",
+        "detailed_pt": "Atenuação de sinal óptico por quilômetro e conformidade de conectores de fibra",
+        "subject_en": "Fiber Attenuation Profile",
+        "subject_pt": "Perfil de Atenuação de Fibra Óptica",
+    },
+    {
+        "short_en": "Atomic Clock Synchronization Log",
+        "short_pt": "Sincronização de Relógio Atômico",
+        "detailed_en": "Frequency stability measurements, phase offset tracking, and NTP drift log",
+        "detailed_pt": "Medições de estabilidade de frequência, rastreamento de fase e desvio de relógio",
+        "subject_en": "Time Base Frequency Drift",
+        "subject_pt": "Desvio de Frequência de Base Temporal",
+    },
+    {
+        "short_en": "Memory Bus Parity Analysis",
+        "short_pt": "Análise de Paridade de Memória",
+        "detailed_en": "Single-bit error correction counters and multi-channel memory bus integrity test",
+        "detailed_pt": "Contadores de correção de erro de bit único e integridade de barramento de memória",
+        "subject_en": "Memory Error Correction Rates",
+        "subject_pt": "Taxa de Correção de Erros de Memória",
+    },
+    {
+        "short_en": "Galvanic Isolation Safety Audit",
+        "short_pt": "Isolamento Galvânico de Circuitos",
+        "detailed_en": "Dielectric breakdown threshold test across high-voltage isolation barriers",
+        "detailed_pt": "Ensaio de tensão disruptiva dielétrica em barreiras de isolamento galvânico",
+        "subject_en": "Dielectric Breakdown Log",
+        "subject_pt": "Registro de Rigidez Dielétrica",
+    },
+    {
+        "short_en": "Electromagnetic Compatibility Survey",
+        "short_pt": "Compatibilidade Eletromagnética",
+        "detailed_en": "Broadband radiofrequency scanning across containment enclosures",
+        "detailed_pt": "Varredura de radiofrequência em gabinetes de contenção de sinal",
+        "subject_en": "RF Spectral Profile",
+        "subject_pt": "Perfil Espectral de Radiofrequência",
+    },
+]
+
 PROCEDURAL_NOISE_TOPICS = [
     {
         "prefix_en": "calibration_log",
@@ -383,13 +547,280 @@ def normalize_language(language: str) -> str:
         )
 
 
-def generate_world(
+def generate_neutral_world(
     seed: int,
     output_dir: str | Path,
     answer_key_path: str | Path | None = None,
     language: str = "en",
     total_files: int = 5,
 ) -> dict[str, Any]:
+    """Generates a neutral benchmark world using doc_001.txt identifiers and rich distractor graph.
+
+    Eliminates structural, lexical, and topological leaks:
+    1. Neutral IDs: All files named doc_001.txt to doc_N.txt, avoiding functional folder/file names.
+    2. Rich Distractor Graph: Generates real directed connections among irrelevant documents.
+    3. Multiple Chains & Topologies: Distributes documents into branches, dead ends, and cycles.
+    4. Multiple Components: Solution path is not the sole connected component.
+    5. Invariant 3-step Solution: start_file (doc_001.txt) -> mid_file -> goal_file.
+    6. Non-leaking Descriptions: Descriptions drawn from domain-neutral engineering topics.
+    7. Bilingual & Deterministic: Reproducible via random.Random(seed) in 'en' or 'pt-BR'.
+    8. Separate Answer Key: Answer key with full ground truth written outside world sandbox.
+    """
+    if total_files < 5:
+        raise ValueError(f"total_files must be >= 5, got {total_files}")
+
+    lang = normalize_language(language)
+    is_pt = (lang == "pt-BR")
+    rng = random.Random(seed)
+
+    base_dir = Path(output_dir).resolve()
+    base_dir.mkdir(parents=True, exist_ok=True)
+
+    if answer_key_path:
+        key_file = Path(answer_key_path).resolve()
+    else:
+        key_file = base_dir.parent / "answer_key.json"
+    key_file.parent.mkdir(parents=True, exist_ok=True)
+
+    # 1. Neutral Node Identifiers
+    node_ids = [f"doc_{i:03d}.txt" for i in range(1, total_files + 1)]
+    start_file = node_ids[0]
+
+    # Sample mid and goal nodes
+    available = [n for n in node_ids if n != start_file]
+    rng.shuffle(available)
+    step2_file = available.pop()
+    step3_file = available.pop()
+    solution_path = [start_file, step2_file, step3_file]
+    true_edges = [(start_file, step2_file), (step2_file, step3_file)]
+
+    # 2. Secret code
+    code_prefix = "TESOURO" if is_pt else "TREASURE"
+    secret_code = f"{code_prefix}-{rng.randint(1000, 9999)}-{rng.choice(CODE_WORDS)}"
+
+    # 3. Distractor Graph Generation
+    distractor_edges: list[tuple[str, str]] = []
+
+    # Competing branch from start_node: creates alternative path(s) of length 2 from start_node
+    branch_count = 1 if total_files <= 10 else 2
+    for _ in range(branch_count):
+        if available:
+            b1 = available.pop()
+            distractor_edges.append((start_file, b1))
+            if available:
+                b2 = available.pop()
+                distractor_edges.append((b1, b2))
+
+    # Determine number of components (at least 3 components for <= 20, 4 for <= 50, 5 for > 50)
+    num_components = 3 if total_files <= 20 else (4 if total_files <= 50 else 5)
+    clusters: list[list[str]] = [[] for _ in range(num_components - 1)]
+    idx = 0
+    while available:
+        clusters[idx % len(clusters)].append(available.pop())
+        idx += 1
+
+    # Connect nodes within each distractor cluster
+    for cluster in clusters:
+        if not cluster:
+            continue
+        c_nodes = list(cluster)
+        root = c_nodes[0]
+        assigned = [root]
+        for node in c_nodes[1:]:
+            parent = rng.choice(assigned)
+            distractor_edges.append((parent, node))
+            assigned.append(node)
+
+        # Add directed cycles among distractors with probability 0.8
+        if len(c_nodes) >= 2 and rng.random() < 0.8:
+            n1, n2 = rng.sample(c_nodes, 2)
+            if (n1, n2) not in distractor_edges:
+                distractor_edges.append((n1, n2))
+
+        # Add candidate paths of length 2 within cluster with probability 0.7
+        if len(c_nodes) >= 3 and rng.random() < 0.7:
+            cand = rng.sample(c_nodes, 3)
+            if (cand[0], cand[1]) not in distractor_edges:
+                distractor_edges.append((cand[0], cand[1]))
+            if (cand[1], cand[2]) not in distractor_edges:
+                distractor_edges.append((cand[1], cand[2]))
+
+    # Deduplicate edges preserving order
+    all_dist_set = set()
+    cleaned_dist_edges = []
+    for u, v in distractor_edges:
+        if (u, v) not in all_dist_set and (u, v) not in true_edges:
+            all_dist_set.add((u, v))
+            cleaned_dist_edges.append((u, v))
+    distractor_edges = cleaned_dist_edges
+
+    # Outgoing references map for generating document contents
+    outgoing_map: dict[str, list[str]] = {n: [] for n in node_ids}
+    for u, v in true_edges:
+        outgoing_map[u].append(v)
+    for u, v in distractor_edges:
+        outgoing_map[u].append(v)
+
+    # 4. Neutral Technical Topics Assignment
+    topics_pool = list(NEUTRAL_TECHNICAL_TOPICS)
+    rng.shuffle(topics_pool)
+    topics_map = {}
+    for i, nid in enumerate(node_ids):
+        tmpl = topics_pool[i % len(topics_pool)]
+        cycle = (i // len(topics_pool)) + 1
+        s_suffix = f" {cycle}" if cycle > 1 else ""
+        topics_map[nid] = {
+            "short_en": f"{tmpl['short_en']}{s_suffix}",
+            "short_pt": f"{tmpl['short_pt']}{s_suffix}",
+            "detailed_en": f"{tmpl['detailed_en']}{s_suffix}",
+            "detailed_pt": f"{tmpl['detailed_pt']}{s_suffix}",
+            "subject_en": f"{tmpl['subject_en']}{s_suffix}",
+            "subject_pt": f"{tmpl['subject_pt']}{s_suffix}",
+        }
+
+    # 5. File Contents Generation
+    files_to_write = []
+    for nid in node_ids:
+        t_info = topics_map[nid]
+        subject = t_info["subject_pt"] if is_pt else t_info["subject_en"]
+        header = (
+            f"=== REGISTRO TÉCNICO: {nid} ===\n"
+            f"Assunto: {subject}\n"
+            f"Status Operacional: Verificado\n\n"
+        ) if is_pt else (
+            f"=== TECHNICAL RECORD: {nid} ===\n"
+            f"Subject: {subject}\n"
+            f"Operational Status: Verified\n\n"
+        )
+
+        if nid == start_file:
+            clue = (
+                f"Parâmetros operacionais verificados e registrados em conformidade técnica.\n"
+                f"Para prosseguir na cadeia de verificação, examine o documento {step2_file} com os registros de telemetria.\n"
+            ) if is_pt else (
+                f"Operational parameters verified and recorded in technical compliance.\n"
+                f"To continue the verification chain, examine document {step2_file} with telemetry logs.\n"
+            )
+            content = header + clue
+        elif nid == step2_file:
+            clue = (
+                f"Validação intermediária aprovada. O registro de encerramento com os parâmetros de autenticação está em {step3_file}.\n"
+            ) if is_pt else (
+                f"Intermediate validation approved. The concluding record with authentication parameters is in {step3_file}.\n"
+            )
+            content = header + clue
+        elif nid == step3_file:
+            goal_text = (
+                f"Procedimento de verificação concluído com êxito.\n"
+                f"Todos os subsistemas operam em conformidade técnica.\n\n"
+                f"CÓDIGO SECRETO: {secret_code}\n\n"
+                f"Registre este código para validação final.\n"
+            ) if is_pt else (
+                f"Verification procedure completed successfully.\n"
+                f"All subsystems operating in technical compliance.\n\n"
+                f"SECRET CODE: {secret_code}\n\n"
+                f"Record this code for final validation.\n"
+            )
+            content = header + goal_text
+        else:
+            # Distractor node
+            targets = outgoing_map.get(nid, [])
+            if targets:
+                # Mention the first outgoing target as a technical cross reference
+                ref = targets[0]
+                dist_text = (
+                    f"Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.\n"
+                    f"Referência técnica cruzada: consulte o documento {ref} para especificações complementares.\n"
+                ) if is_pt else (
+                    f"Routine technical inspection completed. Parameters within nominal range.\n"
+                    f"Technical cross-reference: refer to document {ref} for complementary specifications.\n"
+                )
+            else:
+                dist_text = (
+                    f"Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.\n"
+                    f"Nenhum procedimento adicional requerido.\n"
+                ) if is_pt else (
+                    f"Operational procedure standardized. Stable readings across tolerance range.\n"
+                    f"No further procedure required.\n"
+                )
+            content = header + dist_text
+
+        files_to_write.append((base_dir / nid, content))
+
+    for fpath, fcontent in files_to_write:
+        fpath.write_text(fcontent, encoding="utf-8")
+
+    # 6. Build Answer Key
+    answer_key = {
+        "seed": seed,
+        "language": lang,
+        "total_files": total_files,
+        "neutral_naming": True,
+        "secret_code": secret_code,
+        "start_file": start_file,
+        "solution_path": solution_path,
+        "folders": [],
+        "clue_chain": [
+            {
+                "step": 1,
+                "file": start_file,
+                "type": "direct",
+                "leads_to": step2_file,
+                "short_desc": topics_map[start_file]["short_pt" if is_pt else "short_en"],
+                "detailed_desc": topics_map[start_file]["detailed_pt" if is_pt else "detailed_en"],
+            },
+            {
+                "step": 2,
+                "file": step2_file,
+                "type": "direct",
+                "leads_to": step3_file,
+                "short_desc": topics_map[step2_file]["short_pt" if is_pt else "short_en"],
+                "detailed_desc": topics_map[step2_file]["detailed_pt" if is_pt else "detailed_en"],
+            },
+            {
+                "step": 3,
+                "file": step3_file,
+                "type": "terminal",
+                "secret_code": secret_code,
+                "short_desc": topics_map[step3_file]["short_pt" if is_pt else "short_en"],
+                "detailed_desc": topics_map[step3_file]["detailed_pt" if is_pt else "detailed_en"],
+            },
+        ],
+        "distractor_edges": [
+            {"source": u, "target": v} for u, v in sorted(distractor_edges)
+        ],
+        "distractors": [
+            {
+                "file": n,
+                "type": "distractor",
+                "short_desc": topics_map[n]["short_pt" if is_pt else "short_en"],
+                "detailed_desc": topics_map[n]["detailed_pt" if is_pt else "detailed_en"],
+            }
+            for n in node_ids
+            if n not in solution_path
+        ],
+    }
+
+    key_file.write_text(json.dumps(answer_key, indent=2, ensure_ascii=False), encoding="utf-8")
+    return answer_key
+
+
+def generate_world(
+    seed: int,
+    output_dir: str | Path,
+    answer_key_path: str | Path | None = None,
+    language: str = "en",
+    total_files: int = 5,
+    neutral_ids: bool = False,
+) -> dict[str, Any]:
+    if neutral_ids:
+        return generate_neutral_world(
+            seed=seed,
+            output_dir=output_dir,
+            answer_key_path=answer_key_path,
+            language=language,
+            total_files=total_files,
+        )
     """Generates a reproducible world with N .txt files across 3 folders.
 
     Requirements met:

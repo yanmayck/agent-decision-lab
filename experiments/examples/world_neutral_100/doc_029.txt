@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_029.txt ===
+Assunto: Escala de Operações e Manutenção 2
+Status Operacional: Verificado
+
+Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.
+Referência técnica cruzada: consulte o documento doc_085.txt para especificações complementares.

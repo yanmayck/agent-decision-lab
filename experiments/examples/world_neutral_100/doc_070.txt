@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_070.txt ===
+Assunto: Registro de Rigidez Dielétrica 4
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.

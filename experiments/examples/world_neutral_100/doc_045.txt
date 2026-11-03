@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_045.txt ===
+Assunto: Leituras de Fluxo de Ar e Climatização 3
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.
