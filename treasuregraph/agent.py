@@ -85,6 +85,73 @@ DEFAULT_SYSTEM_PROMPT = (
 GEMINI_OPENAI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/openai"
 
 
+def extract_thought_summary(message_or_candidate: dict[str, Any]) -> str | None:
+    """Extracts plain-text thought summary if provided by the model/endpoint.
+
+    Returns None (null) if the API does not expose thought text. Never synthesizes thoughts.
+    """
+    if not isinstance(message_or_candidate, dict):
+        return None
+
+    # 1. Standard OpenAI reasoning_content (DeepSeek, o-series, newer formats)
+    if "reasoning_content" in message_or_candidate and message_or_candidate["reasoning_content"]:
+        return str(message_or_candidate["reasoning_content"]).strip() or None
+
+    # 2. Direct thought / thoughts field in message
+    if "thought" in message_or_candidate and isinstance(message_or_candidate["thought"], str):
+        return message_or_candidate["thought"].strip() or None
+    if "thoughts" in message_or_candidate and isinstance(message_or_candidate["thoughts"], str):
+        return message_or_candidate["thoughts"].strip() or None
+
+    # 3. Google extra_content in OpenAI-compatible endpoint
+    extra = message_or_candidate.get("extra_content", {})
+    if isinstance(extra, dict):
+        google_data = extra.get("google", {})
+        if isinstance(google_data, dict):
+            if "thought" in google_data and isinstance(google_data["thought"], str):
+                return google_data["thought"].strip() or None
+            if "thoughts" in google_data and isinstance(google_data["thoughts"], str):
+                return google_data["thoughts"].strip() or None
+
+    # 4. Native Gemini parts with thought=True
+    content = message_or_candidate.get("content", {})
+    if isinstance(content, dict):
+        parts = content.get("parts", [])
+        if isinstance(parts, list):
+            thought_texts = []
+            for p in parts:
+                if isinstance(p, dict) and p.get("thought") is True and p.get("text"):
+                    thought_texts.append(p["text"])
+            if thought_texts:
+                return "\n".join(thought_texts).strip()
+
+    return None
+
+
+def extract_thought_signature(message_or_candidate: dict[str, Any]) -> str | None:
+    """Extracts cryptographic thought signature to preserve context across turns."""
+    if not isinstance(message_or_candidate, dict):
+        return None
+
+    # OpenAI-compatible Google format
+    extra = message_or_candidate.get("extra_content", {})
+    if isinstance(extra, dict):
+        google_data = extra.get("google", {})
+        if isinstance(google_data, dict) and "thought_signature" in google_data:
+            return google_data["thought_signature"]
+
+    # Native Gemini format
+    content = message_or_candidate.get("content", {})
+    if isinstance(content, dict):
+        parts = content.get("parts", [])
+        if isinstance(parts, list):
+            for p in parts:
+                if isinstance(p, dict) and p.get("thoughtSignature"):
+                    return p["thoughtSignature"]
+
+    return None
+
+
 def load_dotenv(dotenv_path: Path | str = ".env") -> None:
     """Loads key-value pairs from .env into os.environ without overriding existing vars."""
     env_file = Path(dotenv_path)
@@ -162,6 +229,7 @@ class BaselineAgent:
         llm_client: Callable[..., dict[str, Any]] | None = None,
         system_prompt: str = DEFAULT_SYSTEM_PROMPT,
         reasoning_effort: str | None = None,
+        include_thoughts: bool | None = None,
     ) -> None:
         """Initializes the baseline agent.
 
@@ -174,6 +242,7 @@ class BaselineAgent:
             llm_client: Optional callable to override HTTP requests (useful for mocking/testing).
             system_prompt: Baseline instructions for the agent.
             reasoning_effort: Optional reasoning effort level ('low', 'medium', 'high').
+            include_thoughts: Optional boolean to request thought summaries from models that support it.
         """
         # Load local .env if available
         load_dotenv()
@@ -220,6 +289,11 @@ class BaselineAgent:
         self.system_prompt = system_prompt
         self.reasoning_effort = (
             reasoning_effort or os.getenv("TREASURE_REASONING_EFFORT")
+        )
+        self.include_thoughts = (
+            include_thoughts
+            if include_thoughts is not None
+            else os.getenv("TREASURE_INCLUDE_THOUGHTS", "false").lower() in ("true", "1", "yes")
         )
 
         # Trajectory log
@@ -403,7 +477,11 @@ class BaselineAgent:
             message = choice.get("message", {})
             tool_calls = message.get("tool_calls", [])
 
-            # Append assistant message to context
+            # Extract thought summary and thought signature (never fabricated)
+            thought_summary = extract_thought_summary(message)
+            thought_signature = extract_thought_signature(message)
+
+            # Append assistant message to context (preserves thought_signatures across turns)
             messages.append(message)
 
             if not tool_calls:
@@ -440,9 +518,17 @@ class BaselineAgent:
                 result_text, is_error = self.execute_tool(tool_name, args)
                 duration = time.perf_counter() - t0
 
-                # Record action metric
+                # Record action metric with clear separation of concepts:
+                # 1. thought_summary: reasoning process text (null if omitted by API)
+                # 2. observable_decision: concrete external action and arguments
+                # 3. tokens.reasoning_tokens: quantitative reasoning token count
                 action_record = {
                     "step": step_count,
+                    "thought_summary": thought_summary,
+                    "observable_decision": {
+                        "action": tool_name,
+                        "arguments": args,
+                    },
                     "action": tool_name,
                     "arguments": args,
                     "result": result_text,
@@ -451,8 +537,10 @@ class BaselineAgent:
                     "tokens": {
                         "prompt_tokens": prompt_tokens,
                         "completion_tokens": completion_tokens,
-                        "total_tokens": prompt_tokens + completion_tokens,
+                        "reasoning_tokens": reasoning_tokens,
+                        "total_tokens": prompt_tokens + completion_tokens + reasoning_tokens,
                     },
+                    "thought_signature": thought_signature,
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
                 self.trajectory.append(action_record)

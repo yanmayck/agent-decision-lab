@@ -11,6 +11,8 @@ import unittest
 from treasuregraph.agent import (
     GEMINI_OPENAI_ENDPOINT,
     BaselineAgent,
+    extract_thought_signature,
+    extract_thought_summary,
     load_dotenv,
     safe_resolve_path,
 )
@@ -53,12 +55,12 @@ class TestBaselineAgent(unittest.TestCase):
 
             agent = BaselineAgent(
                 world_dir=world_dir,
-                model="gemini-2.0-flash",
+                model="gemini-3.5-flash-lite",
                 api_key="fake-test-key",
                 llm_client=lambda msgs, tools: {},
             )
             self.assertEqual(agent.api_base, GEMINI_OPENAI_ENDPOINT)
-            self.assertEqual(agent.model, "gemini-2.0-flash")
+            self.assertEqual(agent.model, "gemini-3.5-flash-lite")
 
     def test_dotenv_loader(self):
         """Verifies that load_dotenv reads variables safely."""
@@ -72,78 +74,185 @@ class TestBaselineAgent(unittest.TestCase):
             self.assertEqual(os.environ.get("TEST_TG_VAR"), "hello_world")
             self.assertEqual(os.environ.get("TEST_TG_QUOTED"), "quoted_value")
 
-    def test_simulated_llm_completes_mission_and_logs_metrics(self):
-        """Validates tool execution, code submission, and action metrics recording."""
+    def test_extract_thought_summary_and_signature(self):
+        """Validates extraction of thought summaries and thought signatures across formats."""
+        # 1. OpenAI reasoning_content format
+        msg1 = {
+            "role": "assistant",
+            "reasoning_content": "Pensando: devo inspecionar o arquivo antes de submeter.",
+            "tool_calls": [],
+        }
+        self.assertEqual(
+            extract_thought_summary(msg1),
+            "Pensando: devo inspecionar o arquivo antes de submeter.",
+        )
+        self.assertIsNone(extract_thought_signature(msg1))
+
+        # 2. Google extra_content format with thought and signature
+        msg2 = {
+            "role": "assistant",
+            "extra_content": {
+                "google": {
+                    "thought": "Analisando as pastas disponíveis...",
+                    "thought_signature": "cryptographic_sig_xyz",
+                }
+            },
+        }
+        self.assertEqual(
+            extract_thought_summary(msg2),
+            "Analisando as pastas disponíveis...",
+        )
+        self.assertEqual(extract_thought_signature(msg2), "cryptographic_sig_xyz")
+
+        # 3. Message with ONLY thought_signature (no plain text thoughts, like gemini-3.5-flash-lite)
+        msg3 = {
+            "role": "assistant",
+            "extra_content": {
+                "google": {
+                    "thought_signature": "signature_only_abc",
+                }
+            },
+        }
+        self.assertIsNone(extract_thought_summary(msg3))
+        self.assertEqual(extract_thought_signature(msg3), "signature_only_abc")
+
+    def test_simulated_llm_with_thought_summary_and_signature_preservation(self):
+        """Verifies that thought summaries and signatures are recorded and preserved across turns."""
         with tempfile.TemporaryDirectory() as tmp_dir:
             world_dir = Path(tmp_dir) / "world"
-            key = generate_world(seed=42, output_dir=world_dir, language="en")
+            key = generate_world(seed=42, output_dir=world_dir, language="pt-BR")
 
-            # Sequence of actions to simulate
-            plan_sequence = [
-                ("list_directory", {"path": "."}),
-                ("list_directory", {"path": "archive"}),
-                ("read_file", {"path": "archive/mission_start.txt"}),
-                ("read_file", {"path": "operations/checkpoint_record.txt"}),
-                ("read_file", {"path": "vault/terminal_access.txt"}),
-                ("submit_answer", {"code": key["secret_code"]}),
-            ]
-            call_idx = 0
+            sent_contexts = []
 
-            def mock_llm(messages: list[dict], tools: list[dict]) -> dict:
-                nonlocal call_idx
-                tool_name, tool_args = plan_sequence[call_idx]
-                call_idx += 1
+            def mock_thinking_llm(messages: list[dict], tools: list[dict]) -> dict:
+                sent_contexts.append(list(messages))
+                turn = len(sent_contexts)
+                if turn == 1:
+                    return {
+                        "choices": [
+                            {
+                                "message": {
+                                    "role": "assistant",
+                                    "reasoning_content": "Passo 1: Vou listar o diretório raiz para mapear o ambiente.",
+                                    "extra_content": {
+                                        "google": {"thought_signature": "sig_turn_1"}
+                                    },
+                                    "tool_calls": [
+                                        {
+                                            "id": "c1",
+                                            "type": "function",
+                                            "function": {
+                                                "name": "list_directory",
+                                                "arguments": json.dumps({"path": "."}),
+                                            },
+                                        }
+                                    ],
+                                }
+                            }
+                        ],
+                        "usage": {"prompt_tokens": 100, "completion_tokens": 20, "total_tokens": 170},
+                    }
+                else:
+                    return {
+                        "choices": [
+                            {
+                                "message": {
+                                    "role": "assistant",
+                                    "reasoning_content": "Passo 2: Código descoberto, submetendo agora.",
+                                    "extra_content": {
+                                        "google": {"thought_signature": "sig_turn_2"}
+                                    },
+                                    "tool_calls": [
+                                        {
+                                            "id": "c2",
+                                            "type": "function",
+                                            "function": {
+                                                "name": "submit_answer",
+                                                "arguments": json.dumps({"code": key["secret_code"]}),
+                                            },
+                                        }
+                                    ],
+                                }
+                            }
+                        ],
+                        "usage": {"prompt_tokens": 150, "completion_tokens": 10, "total_tokens": 200},
+                    }
+
+            agent = BaselineAgent(
+                world_dir=world_dir,
+                model="gemini-3.5-flash-lite",
+                max_steps=5,
+                llm_client=mock_thinking_llm,
+                reasoning_effort="high",
+            )
+
+            res = agent.run()
+
+            self.assertEqual(res["status"], "submitted")
+            self.assertEqual(res["total_steps"], 2)
+
+            step1 = res["trajectory"][0]
+            self.assertEqual(
+                step1["thought_summary"],
+                "Passo 1: Vou listar o diretório raiz para mapear o ambiente.",
+            )
+            self.assertEqual(step1["observable_decision"], {"action": "list_directory", "arguments": {"path": "."}})
+            self.assertEqual(step1["thought_signature"], "sig_turn_1")
+            self.assertEqual(step1["tokens"]["reasoning_tokens"], 50)  # 170 - (100 + 20) = 50
+
+            # Verify that thought_signature was preserved in the history sent to turn 2
+            turn2_messages = sent_contexts[1]
+            assistant_msg_turn1 = next(m for m in turn2_messages if m.get("role") == "assistant")
+            self.assertIn("extra_content", assistant_msg_turn1)
+            self.assertEqual(
+                assistant_msg_turn1["extra_content"]["google"]["thought_signature"],
+                "sig_turn_1",
+            )
+
+    def test_thought_summary_is_null_when_api_omits_it(self):
+        """Verifies that thought_summary is strictly null when API does not provide plain text thoughts."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            world_dir = Path(tmp_dir) / "world"
+            generate_world(seed=42, output_dir=world_dir)
+
+            def mock_gemini_without_text_thoughts(messages: list[dict], tools: list[dict]) -> dict:
                 return {
                     "choices": [
                         {
                             "message": {
                                 "role": "assistant",
+                                "extra_content": {
+                                    "google": {"thought_signature": "opaque_cryptographic_signature"}
+                                },
                                 "tool_calls": [
                                     {
-                                        "id": f"call_{call_idx}",
+                                        "id": "c1",
                                         "type": "function",
                                         "function": {
-                                            "name": tool_name,
-                                            "arguments": json.dumps(tool_args),
+                                            "name": "submit_answer",
+                                            "arguments": json.dumps({"code": "TEST-CODE"}),
                                         },
                                     }
                                 ],
                             }
                         }
                     ],
-                    "usage": {
-                        "prompt_tokens": 150 + call_idx * 20,
-                        "completion_tokens": 30,
-                        "total_tokens": 180 + call_idx * 20,
-                    },
+                    "usage": {"prompt_tokens": 80, "completion_tokens": 15, "total_tokens": 150},
                 }
 
             agent = BaselineAgent(
                 world_dir=world_dir,
-                model="gemini-2.0-flash",
-                max_steps=10,
-                llm_client=mock_llm,
+                llm_client=mock_gemini_without_text_thoughts,
+                max_steps=2,
             )
 
-            result = agent.run()
-
-            self.assertEqual(result["status"], "submitted")
-            self.assertEqual(result["submitted_code"], key["secret_code"])
-            self.assertEqual(result["total_steps"], 6)
-
-            # Check that every action has all required metric fields
-            for item in result["trajectory"]:
-                self.assertIn("step", item)
-                self.assertIn("action", item)
-                self.assertIn("arguments", item)
-                self.assertIn("result", item)
-                self.assertIn("status", item)
-                self.assertEqual(item["status"], "success")
-                self.assertIn("duration_seconds", item)
-                self.assertGreaterEqual(item["duration_seconds"], 0.0)
-                self.assertIn("tokens", item)
-                self.assertGreater(item["tokens"]["total_tokens"], 0)
-                self.assertIn("timestamp", item)
+            res = agent.run()
+            step1 = res["trajectory"][0]
+            # Must be None, never hallucinated
+            self.assertIsNone(step1["thought_summary"])
+            self.assertEqual(step1["thought_signature"], "opaque_cryptographic_signature")
+            self.assertEqual(step1["observable_decision"]["action"], "submit_answer")
+            self.assertEqual(step1["tokens"]["reasoning_tokens"], 55)
 
     def test_sandbox_blocks_agent_access_to_answer_key(self):
         """Verifies agent cannot read answer_key.json even if attempting path traversal."""
