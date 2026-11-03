@@ -239,6 +239,7 @@ class BaselineAgent:
         read_cost: int = 0,
         resource_tracker: ResourceTracker | None = None,
         pricing_config: PricingConfig | None = None,
+        document_map: Any = None,
     ) -> None:
         """Initializes the baseline agent.
 
@@ -255,6 +256,7 @@ class BaselineAgent:
             read_cost: Optional cost per read_file action presented to the agent.
             resource_tracker: Optional ResourceTracker instance for recording metrics.
             pricing_config: Optional PricingConfig for USD cost estimation.
+            document_map: Optional DocumentGraph or sanitized map dict for topological exploration.
         """
         # Load local .env if available
         load_dotenv()
@@ -265,6 +267,7 @@ class BaselineAgent:
 
         self.pricing_config = pricing_config
         self.resource_tracker = resource_tracker or ResourceTracker(pricing=self.pricing_config)
+        self.document_map = document_map
 
         self.model = (
             model
@@ -304,13 +307,37 @@ class BaselineAgent:
         self.read_cost = read_cost
 
         # Configure system prompt and tools schema with cost information when applicable
-        if self.read_cost > 0:
-            cost_directive = f"\nNota de custo operacional: Cada chamada de read_file possui um custo explícito de {self.read_cost} unidade(s). Minimize custos desnecessários."
-            self.system_prompt = system_prompt + cost_directive
+        if self.document_map is not None and system_prompt == DEFAULT_SYSTEM_PROMPT:
+            self.system_prompt = (
+                "You are an autonomous AI operative exploring a sandboxed facility.\n"
+                "Your objective is to find the hidden secret code and submit it using submit_answer(code=...).\n"
+                "You have tools to inspect the document map (get_map), list directories, and read files. Explore carefully.\n"
+                "Once you discover the secret code, call submit_answer immediately to complete the mission."
+            )
         else:
             self.system_prompt = system_prompt
 
+        if self.read_cost > 0:
+            cost_directive = f"\nNota de custo operacional: Cada chamada de read_file possui um custo explícito de {self.read_cost} unidade(s). Minimize custos desnecessários."
+            self.system_prompt += cost_directive
+
         self.tools_schema = json.loads(json.dumps(TOOLS_SCHEMA))
+        if self.document_map is not None:
+            self.tools_schema.append(
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "get_map",
+                        "description": "Retrieve the topological network map of documents and known directed connections between them.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {},
+                            "required": [],
+                        },
+                    },
+                }
+            )
+
         if self.read_cost > 0:
             for tool_item in self.tools_schema:
                 if tool_item.get("function", {}).get("name") == "read_file":
@@ -379,8 +406,18 @@ class BaselineAgent:
         self.finished = True
         return f"Code '{cleaned}' submitted successfully. Mission concluded."
 
+    def get_map(self) -> str:
+        """Returns the sanitized topological map of documents."""
+        if self.document_map is None:
+            return "Error: No topological map available in this environment."
+        if hasattr(self.document_map, "to_agent_dict"):
+            data = self.document_map.to_agent_dict()
+        else:
+            data = self.document_map
+        return json.dumps(data, indent=2, ensure_ascii=False)
+
     def execute_tool(self, tool_name: str, arguments: dict[str, Any]) -> tuple[str, bool]:
-        """Executes one of the three tools and returns (result_text, is_error)."""
+        """Executes one of the available tools and returns (result_text, is_error)."""
         if tool_name == "list_directory":
             path_arg = arguments.get("path", ".")
             result = self.list_directory(path_arg)
@@ -391,12 +428,16 @@ class BaselineAgent:
             result = self.read_file(path_arg)
             is_error = result.startswith("Error") or result.startswith("Security Error")
             return result, is_error
+        elif tool_name == "get_map":
+            result = self.get_map()
+            is_error = result.startswith("Error")
+            return result, is_error
         elif tool_name == "submit_answer":
             code_arg = arguments.get("code", "")
             result = self.submit_answer(code_arg)
             return result, False
         else:
-            return f"Error: Unknown tool '{tool_name}'. Available: list_directory, read_file, submit_answer.", True
+            return f"Error: Unknown tool '{tool_name}'. Available: list_directory, read_file, get_map, submit_answer.", True
 
     # -------------------------------------------------------------------------
     # LLM Interaction
@@ -624,6 +665,7 @@ class BaselineAgent:
 
         read_actions = [a for a in self.trajectory if a["action"] == "read_file"]
         parallel_reads = [a for a in read_actions if a.get("is_parallel")]
+        map_actions = [a for a in self.trajectory if a["action"] == "get_map"]
 
         return {
             "status": status,
@@ -633,6 +675,10 @@ class BaselineAgent:
             "read_actions_count": len(read_actions),
             "parallel_reads_count": len(parallel_reads),
             "sequential_reads_count": len(read_actions) - len(parallel_reads),
+            "map_available": self.document_map is not None,
+            "map_consulted": len(map_actions) > 0,
+            "map_consulted_step": map_actions[0]["step"] if map_actions else None,
+            "map_actions_count": len(map_actions),
             "total_tool_cost": total_tool_cost,
             "read_cost_configured": self.read_cost,
             "reasoning_effort": self.reasoning_effort,
