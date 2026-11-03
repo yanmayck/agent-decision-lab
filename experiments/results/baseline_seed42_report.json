@@ -1,0 +1,48 @@
+{
+  "evaluation": {
+    "is_correct": true,
+    "submitted_code": "TESOURO-2679-HORIZON",
+    "expected_code": "TESOURO-2679-HORIZON"
+  },
+  "actions_summary": {
+    "total_actions": 10,
+    "sequence": [
+      "1. list_directory({})",
+      "2. list_directory({'path': 'arquivo'})",
+      "3. list_directory({'path': 'cofre'})",
+      "4. list_directory({'path': 'operacoes'})",
+      "5. read_file({'path': 'arquivo/inicio_missao.txt'})",
+      "6. read_file({'path': 'arquivo/aviso_seguranca.txt'})",
+      "7. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
+      "8. read_file({'path': 'operacoes/diagnostico_sistema.txt'})",
+      "9. read_file({'path': 'cofre/acesso_terminal.txt'})",
+      "10. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
+    ]
+  },
+  "files_consulted": [
+    "arquivo/inicio_missao.txt",
+    "arquivo/aviso_seguranca.txt",
+    "operacoes/registro_checkpoint.txt",
+    "operacoes/diagnostico_sistema.txt",
+    "cofre/acesso_terminal.txt"
+  ],
+  "efficiency_analysis": {
+    "repeated_reads": {},
+    "repeated_lists": {},
+    "unnecessary_files_read": [
+      "arquivo/aviso_seguranca.txt",
+      "operacoes/diagnostico_sistema.txt"
+    ]
+  },
+  "execution_metrics": {
+    "status": "submitted",
+    "total_duration_seconds": 0.022,
+    "total_tokens": {
+      "prompt_tokens": 6868,
+      "completion_tokens": 207,
+      "total_tokens": 7075
+    },
+    "errors_count": 0,
+    "errors": []
+  }
+}

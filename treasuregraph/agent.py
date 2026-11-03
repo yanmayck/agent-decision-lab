@@ -325,17 +325,27 @@ class BaselineAgent:
             method="POST",
         )
 
-        try:
-            with urllib.request.urlopen(req, timeout=90) as resp:
-                return json.loads(resp.read().decode("utf-8"))
-        except urllib.error.HTTPError as e:
-            err_body = e.read().decode("utf-8", errors="ignore")
+        max_retries = 5
+        for attempt in range(max_retries):
             try:
-                err_json = json.loads(err_body)
-                err_msg = err_json.get("error", {}).get("message", err_body)
-            except Exception:
-                err_msg = err_body
-            raise RuntimeError(f"Google AI / LLM API request failed ({e.code}): {err_msg}")
+                with urllib.request.urlopen(req, timeout=90) as resp:
+                    return json.loads(resp.read().decode("utf-8"))
+            except urllib.error.HTTPError as e:
+                err_body = e.read().decode("utf-8", errors="ignore")
+                if e.code in (503, 429) and attempt < max_retries - 1:
+                    time.sleep(3 * (attempt + 1))
+                    continue
+                try:
+                    err_json = json.loads(err_body)
+                    err_msg = err_json.get("error", {}).get("message", err_body)
+                except Exception:
+                    err_msg = err_body
+                raise RuntimeError(f"Google AI / LLM API request failed ({e.code}): {err_msg}")
+            except (TimeoutError, urllib.error.URLError) as e:
+                if attempt < max_retries - 1:
+                    time.sleep(3 * (attempt + 1))
+                    continue
+                raise RuntimeError(f"Google AI / LLM API connection error: {e}")
 
     # -------------------------------------------------------------------------
     # Execution Loop
