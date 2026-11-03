@@ -78,7 +78,9 @@
         "6. read_file({'path': 'operacoes/diagnostico_sistema.txt'})",
         "7. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "8. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 3259,
+      "tool_result_tokens": 819
     },
     {
       "run_id": 2,
@@ -123,7 +125,9 @@
         "6. read_file({'path': 'operacoes/diagnostico_sistema.txt'})",
         "7. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "9. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 3541,
+      "tool_result_tokens": 889
     },
     {
       "run_id": 3,
@@ -168,7 +172,9 @@
         "6. read_file({'path': 'operacoes/diagnostico_sistema.txt'})",
         "7. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "8. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 3839,
+      "tool_result_tokens": 964
     },
     {
       "run_id": 4,
@@ -209,7 +215,9 @@
         "4. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "5. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "6. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 2712,
+      "tool_result_tokens": 681
     },
     {
       "run_id": 5,
@@ -253,7 +261,9 @@
         "7. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "8. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "9. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 3581,
+      "tool_result_tokens": 900
     },
     {
       "run_id": 6,
@@ -294,7 +304,9 @@
         "4. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "5. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "6. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 3802,
+      "tool_result_tokens": 954
     },
     {
       "run_id": 7,
@@ -334,7 +346,9 @@
         "3. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "4. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "5. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 3778,
+      "tool_result_tokens": 947
     },
     {
       "run_id": 8,
@@ -375,7 +389,9 @@
         "4. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "5. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "6. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 4930,
+      "tool_result_tokens": 1236
     },
     {
       "run_id": 9,
@@ -419,7 +435,9 @@
         "7. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "8. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "9. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 6573,
+      "tool_result_tokens": 1647
     },
     {
       "run_id": 10,
@@ -460,7 +478,9 @@
         "4. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "5. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "7. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 7106,
+      "tool_result_tokens": 1780
     },
     {
       "run_id": 11,
@@ -500,7 +520,9 @@
         "3. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "4. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "5. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 9808,
+      "tool_result_tokens": 2455
     },
     {
       "run_id": 12,
@@ -541,7 +563,9 @@
         "4. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "5. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "7. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 12305,
+      "tool_result_tokens": 3079
     },
     {
       "run_id": 13,
@@ -581,7 +605,9 @@
         "3. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "4. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "5. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 12551,
+      "tool_result_tokens": 3140
     },
     {
       "run_id": 14,
@@ -621,7 +647,9 @@
         "3. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "4. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "5. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 18034,
+      "tool_result_tokens": 4511
     },
     {
       "run_id": 15,
@@ -662,7 +690,9 @@
         "4. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
         "5. read_file({'path': 'cofre/acesso_terminal.txt'})",
         "7. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
-      ]
+      ],
+      "tool_result_bytes": 22945,
+      "tool_result_tokens": 5739
     }
   ]
 }
