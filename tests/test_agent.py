@@ -3,11 +3,17 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
 
-from treasuregraph.agent import BaselineAgent, safe_resolve_path
+from treasuregraph.agent import (
+    GEMINI_OPENAI_ENDPOINT,
+    BaselineAgent,
+    load_dotenv,
+    safe_resolve_path,
+)
 from treasuregraph.generator import generate_world
 
 
@@ -38,6 +44,33 @@ class TestBaselineAgent(unittest.TestCase):
 
             with self.assertRaises(PermissionError):
                 safe_resolve_path(base_dir, "C:/Windows/System32")
+
+    def test_google_gemini_endpoint_auto_detection(self):
+        """Verifies that Gemini models automatically configure Google's API endpoint."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            world_dir = Path(tmp_dir) / "world"
+            world_dir.mkdir()
+
+            agent = BaselineAgent(
+                world_dir=world_dir,
+                model="gemini-2.0-flash",
+                api_key="fake-test-key",
+                llm_client=lambda msgs, tools: {},
+            )
+            self.assertEqual(agent.api_base, GEMINI_OPENAI_ENDPOINT)
+            self.assertEqual(agent.model, "gemini-2.0-flash")
+
+    def test_dotenv_loader(self):
+        """Verifies that load_dotenv reads variables safely."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            env_file = Path(tmp_dir) / ".env"
+            env_file.write_text(
+                "TEST_TG_VAR=hello_world\n# Comment\nINVALID_LINE\nTEST_TG_QUOTED='quoted_value'\n",
+                encoding="utf-8",
+            )
+            load_dotenv(env_file)
+            self.assertEqual(os.environ.get("TEST_TG_VAR"), "hello_world")
+            self.assertEqual(os.environ.get("TEST_TG_QUOTED"), "quoted_value")
 
     def test_simulated_llm_completes_mission_and_logs_metrics(self):
         """Validates tool execution, code submission, and action metrics recording."""
@@ -87,7 +120,7 @@ class TestBaselineAgent(unittest.TestCase):
 
             agent = BaselineAgent(
                 world_dir=world_dir,
-                model="mock-gpt",
+                model="gemini-2.0-flash",
                 max_steps=10,
                 llm_client=mock_llm,
             )
@@ -120,7 +153,6 @@ class TestBaselineAgent(unittest.TestCase):
             answer_key_path = Path(tmp_dir) / "answer_key.json"
             self.assertTrue(answer_key_path.exists())
 
-            # Simulated agent trying to read answer_key.json directly
             attempt_idx = 0
 
             def mock_attacker_llm(messages: list[dict], tools: list[dict]) -> dict:

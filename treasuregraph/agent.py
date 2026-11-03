@@ -5,8 +5,8 @@ Provides a minimal, natural ReAct-style agent with sandboxed environment tools:
 - read_file
 - submit_answer
 
-Records detailed action metrics (arguments, results, tokens, duration) without
-pre-planning, optimization, or prior knowledge of the environment.
+Supports Google AI (Gemini) natively via its OpenAI-compatible endpoint, as well
+as OpenAI and compatible local/remote models. Zero external dependencies.
 """
 
 from __future__ import annotations
@@ -49,7 +49,7 @@ TOOLS_SCHEMA = [
                 "properties": {
                     "path": {
                         "type": "string",
-                        "description": "Relative path to the file to read (e.g. 'archive/briefing.txt').",
+                        "description": "Relative path to the file to read (e.g. 'arquivo/inicio_missao.txt').",
                     }
                 },
                 "required": ["path"],
@@ -81,6 +81,24 @@ DEFAULT_SYSTEM_PROMPT = (
     "You have tools to list directories and read files. Explore carefully.\n"
     "Once you discover the secret code, call submit_answer immediately to complete the mission."
 )
+
+GEMINI_OPENAI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/openai"
+
+
+def load_dotenv(dotenv_path: Path | str = ".env") -> None:
+    """Loads key-value pairs from .env into os.environ without overriding existing vars."""
+    env_file = Path(dotenv_path)
+    if not env_file.is_file():
+        return
+    for line in env_file.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, val = line.split("=", 1)
+        key = key.strip()
+        val = val.strip().strip("'\"")
+        if key and key not in os.environ:
+            os.environ[key] = val
 
 
 def safe_resolve_path(world_dir: Path, requested_path: str | Path) -> Path:
@@ -148,13 +166,16 @@ class BaselineAgent:
 
         Args:
             world_dir: Path to the environment directory.
-            model: Model name. Falls back to TREASURE_MODEL or OPENAI_MODEL env var.
-            api_key: API Key. Falls back to TREASURE_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY.
-            api_base: Base URL for OpenAI-compatible endpoint. Falls back to TREASURE_API_BASE.
+            model: Model name. Falls back to TREASURE_MODEL, GEMINI_MODEL, or 'gemini-2.0-flash'.
+            api_key: API Key. Falls back to GEMINI_API_KEY, GOOGLE_API_KEY, TREASURE_API_KEY, or OPENAI_API_KEY.
+            api_base: Base URL. Auto-configures for Google AI (Gemini) if gemini model/key is detected.
             max_steps: Maximum number of tool actions allowed.
             llm_client: Optional callable to override HTTP requests (useful for mocking/testing).
             system_prompt: Baseline instructions for the agent.
         """
+        # Load local .env if available
+        load_dotenv()
+
         self.world_dir = Path(world_dir).resolve()
         if not self.world_dir.exists():
             raise FileNotFoundError(f"Environment directory '{self.world_dir}' does not exist.")
@@ -162,22 +183,36 @@ class BaselineAgent:
         self.model = (
             model
             or os.getenv("TREASURE_MODEL")
+            or os.getenv("GEMINI_MODEL")
             or os.getenv("OPENAI_MODEL")
-            or "gpt-4o-mini"
+            or "gemini-2.0-flash"
         )
+
         self.api_key = (
             api_key
             or os.getenv("TREASURE_API_KEY")
-            or os.getenv("OPENAI_API_KEY")
             or os.getenv("GEMINI_API_KEY")
+            or os.getenv("GOOGLE_API_KEY")
+            or os.getenv("OPENAI_API_KEY")
             or ""
         )
-        self.api_base = (
-            api_base
-            or os.getenv("TREASURE_API_BASE")
-            or os.getenv("OPENAI_BASE_URL")
-            or "https://api.openai.com/v1"
-        )
+
+        # Automatic endpoint routing: Google AI endpoint for Gemini, OpenAI endpoint otherwise
+        if api_base:
+            self.api_base = api_base
+        elif os.getenv("TREASURE_API_BASE"):
+            self.api_base = os.environ["TREASURE_API_BASE"]
+        elif os.getenv("OPENAI_BASE_URL"):
+            self.api_base = os.environ["OPENAI_BASE_URL"]
+        elif (
+            self.model.lower().startswith("gemini")
+            or os.getenv("GEMINI_API_KEY")
+            or os.getenv("GOOGLE_API_KEY")
+        ):
+            self.api_base = GEMINI_OPENAI_ENDPOINT
+        else:
+            self.api_base = "https://api.openai.com/v1"
+
         self.max_steps = max_steps
         self.llm_client = llm_client
         self.system_prompt = system_prompt
@@ -266,14 +301,15 @@ class BaselineAgent:
 
         if not self.api_key:
             raise ValueError(
-                "API key not configured. Set TREASURE_API_KEY, OPENAI_API_KEY, "
-                "or pass llm_client for simulated execution."
+                "API key not configured. Set GEMINI_API_KEY, GOOGLE_API_KEY, "
+                "or TREASURE_API_KEY in your environment or .env file."
             )
 
         url = f"{self.api_base.rstrip('/')}/chat/completions"
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.api_key}",
+            "api-key": self.api_key,
         }
         payload = {
             "model": self.model,
@@ -294,7 +330,12 @@ class BaselineAgent:
                 return json.loads(resp.read().decode("utf-8"))
         except urllib.error.HTTPError as e:
             err_body = e.read().decode("utf-8", errors="ignore")
-            raise RuntimeError(f"LLM API request failed with status {e.code}: {err_body}")
+            try:
+                err_json = json.loads(err_body)
+                err_msg = err_json.get("error", {}).get("message", err_body)
+            except Exception:
+                err_msg = err_body
+            raise RuntimeError(f"Google AI / LLM API request failed ({e.code}): {err_msg}")
 
     # -------------------------------------------------------------------------
     # Execution Loop

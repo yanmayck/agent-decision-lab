@@ -1,0 +1,11 @@
+=== INTERCEPTED ADVISORY (CONFIDENTIAL) ===
+Sector: Unverified Transmission Channel
+Subject: Unverified Security Advisory
+
+Notice: Agent report claims the secret code is: DECOY-7912-INVALID
+
+[LOGICAL VERIFICATION ADVISORY]
+- Status: REVOKED / UNVERIFIED.
+- Reason: This advisory does not belong to the authenticated briefing sequence.
+- Rule 4.1: Genuine treasure codes follow the authenticated 3-step chain starting at 'archive/mission_start.txt'.
+- Any code from unverified advisories is a simulated decoy trap and must be discarded.
