@@ -20,6 +20,12 @@ from typing import Any, Callable
 import urllib.error
 import urllib.request
 
+from treasuregraph.instrumentation import (
+    PricingConfig,
+    ResourceTracker,
+    estimate_tokens,
+)
+
 TOOLS_SCHEMA = [
     {
         "type": "function",
@@ -231,6 +237,8 @@ class BaselineAgent:
         reasoning_effort: str | None = None,
         include_thoughts: bool | None = None,
         read_cost: int = 0,
+        resource_tracker: ResourceTracker | None = None,
+        pricing_config: PricingConfig | None = None,
     ) -> None:
         """Initializes the baseline agent.
 
@@ -245,6 +253,8 @@ class BaselineAgent:
             reasoning_effort: Optional reasoning effort level ('low', 'medium', 'high').
             include_thoughts: Optional boolean to request thought summaries from models that support it.
             read_cost: Optional cost per read_file action presented to the agent.
+            resource_tracker: Optional ResourceTracker instance for recording metrics.
+            pricing_config: Optional PricingConfig for USD cost estimation.
         """
         # Load local .env if available
         load_dotenv()
@@ -252,6 +262,9 @@ class BaselineAgent:
         self.world_dir = Path(world_dir).resolve()
         if not self.world_dir.exists():
             raise FileNotFoundError(f"Environment directory '{self.world_dir}' does not exist.")
+
+        self.pricing_config = pricing_config
+        self.resource_tracker = resource_tracker or ResourceTracker(pricing=self.pricing_config)
 
         self.model = (
             model
@@ -467,6 +480,7 @@ class BaselineAgent:
         ]
 
         run_start_time = time.perf_counter()
+        self.resource_tracker.start()
         step_count = 0
         api_calls_count = 0
         total_prompt_tokens = 0
@@ -479,8 +493,11 @@ class BaselineAgent:
             api_calls_count += 1
             llm_response = self._call_llm(messages)
 
-            # Extract token usage
+            # Record API call usage in resource tracker
             usage = llm_response.get("usage", {})
+            self.resource_tracker.record_api_call(usage)
+
+            # Extract token usage
             prompt_tokens = usage.get("prompt_tokens", 0)
             completion_tokens = usage.get("completion_tokens", 0)
             total_tokens = usage.get("total_tokens", prompt_tokens + completion_tokens)
@@ -543,6 +560,17 @@ class BaselineAgent:
                 result_text, is_error = self.execute_tool(tool_name, args)
                 duration = time.perf_counter() - t0
 
+                # Record in decoupled resource tracker
+                tool_record = self.resource_tracker.record_tool_execution(
+                    step=step_count,
+                    action=tool_name,
+                    arguments=args,
+                    result_text=result_text,
+                    duration_seconds=duration,
+                    cost_units=action_cost,
+                    is_parallel=is_parallel_batch,
+                )
+
                 # Record action metric
                 action_record = {
                     "step": step_count,
@@ -554,6 +582,8 @@ class BaselineAgent:
                     "action": tool_name,
                     "arguments": args,
                     "result": result_text,
+                    "result_bytes": tool_record.result_bytes,
+                    "tool_result_tokens": tool_record.estimated_tool_result_tokens,
                     "status": "error" if is_error else "success",
                     "duration_seconds": round(duration, 5),
                     "cost": action_cost,
@@ -586,6 +616,9 @@ class BaselineAgent:
         else:
             status = "stopped"
 
+        self.resource_tracker.stop()
+        metrics = self.resource_tracker.get_metrics_summary()
+
         total_duration = sum(item["duration_seconds"] for item in self.trajectory)
         total_elapsed = time.perf_counter() - run_start_time
 
@@ -611,5 +644,15 @@ class BaselineAgent:
                 "reasoning_tokens": total_reasoning_tokens,
                 "total_tokens": total_prompt_tokens + total_completion_tokens + total_reasoning_tokens,
             },
+            # Decoupled resource instrumentation metrics
+            "resource_metrics": metrics,
+            "input_tokens": metrics["input_tokens"],
+            "output_tokens": metrics["output_tokens"],
+            "reasoning_tokens": metrics["reasoning_tokens"],
+            "tool_result_tokens": metrics["tool_result_tokens"],
+            "tool_calls": metrics["tool_calls"],
+            "api_calls": metrics["api_calls"],
+            "estimated_cost_usd": metrics["estimated_cost_usd"],
+            "wall_clock_seconds": metrics["wall_clock_seconds"],
             "trajectory": self.trajectory,
         }

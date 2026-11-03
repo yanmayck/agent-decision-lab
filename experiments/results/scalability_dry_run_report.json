@@ -1,0 +1,125 @@
+{
+  "status": "submitted",
+  "submitted_code": "TESOURO-2679-HORIZON",
+  "total_steps": 2,
+  "api_calls_count": 2,
+  "read_actions_count": 0,
+  "parallel_reads_count": 0,
+  "sequential_reads_count": 0,
+  "total_tool_cost": 0,
+  "read_cost_configured": 0,
+  "reasoning_effort": null,
+  "total_duration_seconds": 0.001,
+  "total_elapsed_seconds": 0.0011,
+  "total_tokens": {
+    "prompt_tokens": 600,
+    "completion_tokens": 50,
+    "reasoning_tokens": 0,
+    "total_tokens": 650
+  },
+  "resource_metrics": {
+    "input_tokens": 600,
+    "output_tokens": 50,
+    "reasoning_tokens": null,
+    "tool_result_tokens": 34,
+    "tool_result_tokens_is_estimate": true,
+    "tool_calls": 2,
+    "api_calls": 2,
+    "estimated_cost_usd": 0.0007,
+    "wall_clock_seconds": 0.0011,
+    "tool_executions": [
+      {
+        "step": 1,
+        "action": "list_directory",
+        "arguments": {
+          "path": "."
+        },
+        "result_bytes": 62,
+        "estimated_tool_result_tokens": 16,
+        "duration_seconds": 0.00096,
+        "cost_units": 0,
+        "is_parallel": false
+      },
+      {
+        "step": 2,
+        "action": "submit_answer",
+        "arguments": {
+          "code": "TESOURO-2679-HORIZON"
+        },
+        "result_bytes": 70,
+        "estimated_tool_result_tokens": 18,
+        "duration_seconds": 0.0,
+        "cost_units": 0,
+        "is_parallel": false
+      }
+    ]
+  },
+  "input_tokens": 600,
+  "output_tokens": 50,
+  "reasoning_tokens": null,
+  "tool_result_tokens": 34,
+  "tool_calls": 2,
+  "api_calls": 2,
+  "estimated_cost_usd": 0.0007,
+  "wall_clock_seconds": 0.0011,
+  "trajectory": [
+    {
+      "step": 1,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "list_directory",
+        "arguments": {
+          "path": "."
+        }
+      },
+      "action": "list_directory",
+      "arguments": {
+        "path": "."
+      },
+      "result": "arquivo/ (directory)\ncofre/ (directory)\noperacoes/ (directory)",
+      "result_bytes": 62,
+      "tool_result_tokens": 16,
+      "status": "success",
+      "duration_seconds": 0.00096,
+      "cost": 0,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 250,
+        "completion_tokens": 20,
+        "reasoning_tokens": 0,
+        "total_tokens": 270
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:28:09.610327+00:00"
+    },
+    {
+      "step": 2,
+      "thought_summary": null,
+      "observable_decision": {
+        "action": "submit_answer",
+        "arguments": {
+          "code": "TESOURO-2679-HORIZON"
+        }
+      },
+      "action": "submit_answer",
+      "arguments": {
+        "code": "TESOURO-2679-HORIZON"
+      },
+      "result": "Code 'TESOURO-2679-HORIZON' submitted successfully. Mission concluded.",
+      "result_bytes": 70,
+      "tool_result_tokens": 18,
+      "status": "success",
+      "duration_seconds": 0.0,
+      "cost": 0,
+      "is_parallel": false,
+      "tokens": {
+        "prompt_tokens": 350,
+        "completion_tokens": 30,
+        "reasoning_tokens": 0,
+        "total_tokens": 380
+      },
+      "thought_signature": null,
+      "timestamp": "2026-11-03T20:28:09.610400+00:00"
+    }
+  ]
+}
