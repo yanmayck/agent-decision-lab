@@ -1,4 +1,4 @@
-"""TreasureGraph environment generator, baseline agent, decision theory, and instrumentation package."""
+"""TreasureGraph environment generator, baseline agent, decision theory, instrumentation, and map package."""
 
 from treasuregraph.agent import BaselineAgent
 from treasuregraph.decision_theory import (
@@ -13,6 +13,13 @@ from treasuregraph.instrumentation import (
     estimate_tokens,
     parse_api_usage,
 )
+from treasuregraph.map_generator import (
+    DirectedEdge,
+    DocumentGraph,
+    DocumentNode,
+    MapMode,
+    generate_document_map,
+)
 
 __all__ = [
     "generate_world",
@@ -24,4 +31,9 @@ __all__ = [
     "ToolExecutionRecord",
     "estimate_tokens",
     "parse_api_usage",
+    "DocumentNode",
+    "DirectedEdge",
+    "DocumentGraph",
+    "MapMode",
+    "generate_document_map",
 ]
