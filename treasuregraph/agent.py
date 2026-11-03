@@ -161,6 +161,7 @@ class BaselineAgent:
         max_steps: int = 15,
         llm_client: Callable[..., dict[str, Any]] | None = None,
         system_prompt: str = DEFAULT_SYSTEM_PROMPT,
+        reasoning_effort: str | None = None,
     ) -> None:
         """Initializes the baseline agent.
 
@@ -172,6 +173,7 @@ class BaselineAgent:
             max_steps: Maximum number of tool actions allowed.
             llm_client: Optional callable to override HTTP requests (useful for mocking/testing).
             system_prompt: Baseline instructions for the agent.
+            reasoning_effort: Optional reasoning effort level ('low', 'medium', 'high').
         """
         # Load local .env if available
         load_dotenv()
@@ -216,6 +218,9 @@ class BaselineAgent:
         self.max_steps = max_steps
         self.llm_client = llm_client
         self.system_prompt = system_prompt
+        self.reasoning_effort = (
+            reasoning_effort or os.getenv("TREASURE_REASONING_EFFORT")
+        )
 
         # Trajectory log
         self.trajectory: list[dict[str, Any]] = []
@@ -311,12 +316,14 @@ class BaselineAgent:
             "Authorization": f"Bearer {self.api_key}",
             "api-key": self.api_key,
         }
-        payload = {
+        payload: dict[str, Any] = {
             "model": self.model,
             "messages": messages,
             "tools": TOOLS_SCHEMA,
             "tool_choice": "auto",
         }
+        if self.reasoning_effort:
+            payload["reasoning_effort"] = self.reasoning_effort
 
         req = urllib.request.Request(
             url,
@@ -369,9 +376,11 @@ class BaselineAgent:
             },
         ]
 
+        run_start_time = time.perf_counter()
         step_count = 0
         total_prompt_tokens = 0
         total_completion_tokens = 0
+        total_reasoning_tokens = 0
 
         while step_count < self.max_steps and not self.finished:
             # Call LLM
@@ -381,8 +390,14 @@ class BaselineAgent:
             usage = llm_response.get("usage", {})
             prompt_tokens = usage.get("prompt_tokens", 0)
             completion_tokens = usage.get("completion_tokens", 0)
+            total_tokens = usage.get("total_tokens", prompt_tokens + completion_tokens)
+            reasoning_tokens = (
+                usage.get("completion_tokens_details", {}).get("reasoning_tokens")
+                or max(0, total_tokens - (prompt_tokens + completion_tokens))
+            )
             total_prompt_tokens += prompt_tokens
             total_completion_tokens += completion_tokens
+            total_reasoning_tokens += reasoning_tokens
 
             choice = llm_response.get("choices", [{}])[0]
             message = choice.get("message", {})
@@ -460,16 +475,20 @@ class BaselineAgent:
             status = "stopped"
 
         total_duration = sum(item["duration_seconds"] for item in self.trajectory)
+        total_elapsed = time.perf_counter() - run_start_time
 
         return {
             "status": status,
             "submitted_code": self.submitted_code,
             "total_steps": len(self.trajectory),
+            "reasoning_effort": self.reasoning_effort,
             "total_duration_seconds": round(total_duration, 4),
+            "total_elapsed_seconds": round(total_elapsed, 4),
             "total_tokens": {
                 "prompt_tokens": total_prompt_tokens,
                 "completion_tokens": total_completion_tokens,
-                "total_tokens": total_prompt_tokens + total_completion_tokens,
+                "reasoning_tokens": total_reasoning_tokens,
+                "total_tokens": total_prompt_tokens + total_completion_tokens + total_reasoning_tokens,
             },
             "trajectory": self.trajectory,
         }

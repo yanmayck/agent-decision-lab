@@ -1,0 +1,70 @@
+{
+  "experiment_02_high": {
+    "model": "gemini-3.5-flash-lite",
+    "reasoning_effort_applied": "high",
+    "is_correct": true,
+    "submitted_code": "TESOURO-2679-HORIZON",
+    "expected_code": "TESOURO-2679-HORIZON",
+    "total_actions": 10,
+    "actions_sequence": [
+      "1. list_directory({})",
+      "2. list_directory({'path': 'arquivo'})",
+      "3. list_directory({'path': 'cofre'})",
+      "4. list_directory({'path': 'operacoes'})",
+      "5. read_file({'path': 'arquivo/aviso_seguranca.txt'})",
+      "6. read_file({'path': 'arquivo/inicio_missao.txt'})",
+      "7. read_file({'path': 'cofre/acesso_terminal.txt'})",
+      "8. read_file({'path': 'operacoes/diagnostico_sistema.txt'})",
+      "9. read_file({'path': 'operacoes/registro_checkpoint.txt'})",
+      "10. submit_answer({'code': 'TESOURO-2679-HORIZON'})"
+    ],
+    "files_consulted": [
+      "arquivo/aviso_seguranca.txt",
+      "arquivo/inicio_missao.txt",
+      "cofre/acesso_terminal.txt",
+      "operacoes/diagnostico_sistema.txt",
+      "operacoes/registro_checkpoint.txt"
+    ],
+    "unnecessary_files_consulted": [
+      "arquivo/aviso_seguranca.txt",
+      "operacoes/diagnostico_sistema.txt"
+    ],
+    "tokens": {
+      "prompt_tokens": 8621,
+      "completion_tokens": 207,
+      "reasoning_tokens": 609,
+      "total_tokens": 9437
+    },
+    "tool_duration_seconds": 0.0204,
+    "wall_clock_duration_seconds": 10.6636,
+    "errors_count": 0
+  },
+  "experiment_01_baseline": {
+    "model": "gemini-3.5-flash-lite",
+    "reasoning_effort_applied": "default (none)",
+    "is_correct": true,
+    "submitted_code": "TESOURO-2679-HORIZON",
+    "total_actions": 10,
+    "files_consulted": [
+      "arquivo/inicio_missao.txt",
+      "arquivo/aviso_seguranca.txt",
+      "operacoes/registro_checkpoint.txt",
+      "operacoes/diagnostico_sistema.txt",
+      "cofre/acesso_terminal.txt"
+    ],
+    "unnecessary_files_consulted": [
+      "arquivo/aviso_seguranca.txt",
+      "operacoes/diagnostico_sistema.txt"
+    ],
+    "tokens": {
+      "prompt_tokens": 6868,
+      "completion_tokens": 207,
+      "total_tokens": 7075
+    }
+  },
+  "comparison_analysis": {
+    "action_count_delta": 0,
+    "unnecessary_files_delta": 0,
+    "tokens_delta": 2362
+  }
+}
