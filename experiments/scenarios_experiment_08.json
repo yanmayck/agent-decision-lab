@@ -1,0 +1,162 @@
+[
+  {
+    "scenario_id": 1,
+    "name": "Alta probabilidade e relatório de alto custo relativo",
+    "description": "Cofre prioritário com altíssima probabilidade de sucesso e relatório de inteligência altamente custoso.",
+    "probability": 0.90,
+    "open_cost": 1.0,
+    "report_cost": 10.0
+  },
+  {
+    "scenario_id": 2,
+    "name": "Probabilidade moderada com relatório econômico",
+    "description": "Cofre com probabilidade de 50%, porém com acesso a relatório perfeito muito barato.",
+    "probability": 0.50,
+    "open_cost": 10.0,
+    "report_cost": 2.0
+  },
+  {
+    "scenario_id": 3,
+    "name": "Boa probabilidade com custos equilibrados",
+    "description": "Probabilidade substancial de 75% em cofre de abertura moderada e relatório moderadamente oneroso.",
+    "probability": 0.75,
+    "open_cost": 10.0,
+    "report_cost": 15.0
+  },
+  {
+    "scenario_id": 4,
+    "name": "Baixa probabilidade com abertura onerosa",
+    "description": "Probabilidade reduzida (20%) e custo mecânico de abertura elevado frente a relatório de suporte barato.",
+    "probability": 0.20,
+    "open_cost": 15.0,
+    "report_cost": 3.0
+  },
+  {
+    "scenario_id": 5,
+    "name": "Probabilidade intermediária e abertura barata",
+    "description": "Probabilidade de 60% com custo de abertura trivial em comparação ao relatório especializado.",
+    "probability": 0.60,
+    "open_cost": 2.0,
+    "report_cost": 8.0
+  },
+  {
+    "scenario_id": 6,
+    "name": "Baixa probabilidade e relatório acessível",
+    "description": "Apenas 30% de chance no alvo primário e relatório técnico quatro vezes mais barato que a abertura.",
+    "probability": 0.30,
+    "open_cost": 20.0,
+    "report_cost": 5.0
+  },
+  {
+    "scenario_id": 7,
+    "name": "Alta probabilidade com relatório quadruplo da abertura",
+    "description": "Probabilidade de 85% em cofre ágil frente a relatório de auditoria quadruplamente mais caro.",
+    "probability": 0.85,
+    "open_cost": 5.0,
+    "report_cost": 20.0
+  },
+  {
+    "scenario_id": 8,
+    "name": "Alta probabilidade aparente mas relatório muito barato",
+    "description": "Probabilidade de 70%, mas o custo de abertura é seis vezes maior que a consulta ao relatório preliminar.",
+    "probability": 0.70,
+    "open_cost": 30.0,
+    "report_cost": 5.0
+  },
+  {
+    "scenario_id": 9,
+    "name": "Probabilidade moderada com relatório quadruplo",
+    "description": "Probabilidade ligeiramente superior a 50% (55%), com relatório quatro vezes o custo de abertura física.",
+    "probability": 0.55,
+    "open_cost": 3.0,
+    "report_cost": 12.0
+  },
+  {
+    "scenario_id": 10,
+    "name": "Probabilidade sub-50% com abertura o dobro do relatório",
+    "description": "Probabilidade de 40% com ferramenta de diagnóstico pelo dobro do valor da consulta documental.",
+    "probability": 0.40,
+    "open_cost": 8.0,
+    "report_cost": 4.0
+  },
+  {
+    "scenario_id": 11,
+    "name": "Quase certeza (95%) com custos substanciais",
+    "description": "Quase certeza absoluta no cofre candidato (95%) diante de um relatório de validação oneroso.",
+    "probability": 0.95,
+    "open_cost": 12.0,
+    "report_cost": 30.0
+  },
+  {
+    "scenario_id": 12,
+    "name": "Certeza remota (15%) e alto custo de abertura",
+    "description": "Probabilidade remota de acerto direto (15%) com abertura muito arriscada e custosa.",
+    "probability": 0.15,
+    "open_cost": 50.0,
+    "report_cost": 10.0
+  },
+  {
+    "scenario_id": 13,
+    "name": "Boa probabilidade e custos de magnitude baixa",
+    "description": "Probabilidade de 70% com custos de escala pequena (4 vs 6 unidades).",
+    "probability": 0.70,
+    "open_cost": 4.0,
+    "report_cost": 6.0
+  },
+  {
+    "scenario_id": 14,
+    "name": "Probabilidade moderada com abertura quatro vezes o relatório",
+    "description": "Probabilidade de 60%, mas a penalidade de uma abertura falha é amplificada pelo alto custo do cofre.",
+    "probability": 0.60,
+    "open_cost": 40.0,
+    "report_cost": 10.0
+  },
+  {
+    "scenario_id": 15,
+    "name": "Probabilidade razoável com relatório moderado",
+    "description": "Probabilidade de 65% em operação com custo de abertura próximo ao custo do relatório (8 vs 10).",
+    "probability": 0.65,
+    "open_cost": 8.0,
+    "report_cost": 10.0
+  },
+  {
+    "scenario_id": 16,
+    "name": "Baixa probabilidade e relatório com custo quase nulo",
+    "description": "Probabilidade de 25% onde a consulta ao oráculo custa apenas 1 unidade frente a 12 da intervenção física.",
+    "probability": 0.25,
+    "open_cost": 12.0,
+    "report_cost": 1.0
+  },
+  {
+    "scenario_id": 17,
+    "name": "Alta probabilidade com relatório com o dobro da abertura",
+    "description": "Probabilidade de 80% com cofre industrial e relatório pericial de alto valor agregado.",
+    "probability": 0.80,
+    "open_cost": 25.0,
+    "report_cost": 50.0
+  },
+  {
+    "scenario_id": 18,
+    "name": "Probabilidade sub-50% e relatório com metade do custo da abertura",
+    "description": "Probabilidade de 45% com abertura pesada e relatório ágil por metade do custo.",
+    "probability": 0.45,
+    "open_cost": 16.0,
+    "report_cost": 8.0
+  },
+  {
+    "scenario_id": 19,
+    "name": "Margem estreita: probabilidade limítrofe favorável à abertura",
+    "description": "Cofre com probabilidade ligeiramente superior à paridade e custos de abertura e relatório relativamente próximos.",
+    "probability": 0.52,
+    "open_cost": 10.0,
+    "report_cost": 12.0
+  },
+  {
+    "scenario_id": 20,
+    "name": "Margem estreita: probabilidade alta mas abertura muito custosa",
+    "description": "Cofre de alta probabilidade nominal, porém com custo de abertura substancialmente mais elevado que o relatório.",
+    "probability": 0.78,
+    "open_cost": 45.0,
+    "report_cost": 10.0
+  }
+]
