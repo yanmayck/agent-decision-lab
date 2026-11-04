@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_064.txt ===
+Assunto: Calibração de Transdutores de Pressão 4
+Status Operacional: Verificado
+
+Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.
+Referência técnica cruzada: consulte o documento doc_056.txt para especificações complementares.

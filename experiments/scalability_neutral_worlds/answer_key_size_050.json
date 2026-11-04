@@ -1,0 +1,510 @@
+{
+  "seed": 42,
+  "language": "pt-BR",
+  "total_files": 50,
+  "neutral_naming": true,
+  "secret_code": "TESOURO-9785-ORION",
+  "start_file": "doc_001.txt",
+  "solution_path": [
+    "doc_001.txt",
+    "doc_042.txt",
+    "doc_009.txt"
+  ],
+  "folders": [],
+  "clue_chain": [
+    {
+      "step": 1,
+      "file": "doc_001.txt",
+      "type": "direct",
+      "leads_to": "doc_042.txt",
+      "short_desc": "Inspeção de Bombas Hidráulicas",
+      "detailed_desc": "Pressão diferencial em filtros principais e auditoria térmica do reservatório de óleo"
+    },
+    {
+      "step": 2,
+      "file": "doc_042.txt",
+      "type": "direct",
+      "leads_to": "doc_009.txt",
+      "short_desc": "Inspeção Estrutural da Instalação 3",
+      "detailed_desc": "Medições de dilatação em juntas estruturais e vedação de juntas de expansão 3"
+    },
+    {
+      "step": 3,
+      "file": "doc_009.txt",
+      "type": "terminal",
+      "secret_code": "TESOURO-9785-ORION",
+      "short_desc": "Especificação de Redundância de Rede",
+      "detailed_desc": "Tempo de convergência de tabelas de roteamento e latência de comutação por falha"
+    }
+  ],
+  "distractor_edges": [
+    {
+      "source": "doc_001.txt",
+      "target": "doc_003.txt"
+    },
+    {
+      "source": "doc_001.txt",
+      "target": "doc_017.txt"
+    },
+    {
+      "source": "doc_003.txt",
+      "target": "doc_019.txt"
+    },
+    {
+      "source": "doc_004.txt",
+      "target": "doc_015.txt"
+    },
+    {
+      "source": "doc_004.txt",
+      "target": "doc_035.txt"
+    },
+    {
+      "source": "doc_004.txt",
+      "target": "doc_047.txt"
+    },
+    {
+      "source": "doc_007.txt",
+      "target": "doc_040.txt"
+    },
+    {
+      "source": "doc_008.txt",
+      "target": "doc_039.txt"
+    },
+    {
+      "source": "doc_010.txt",
+      "target": "doc_004.txt"
+    },
+    {
+      "source": "doc_010.txt",
+      "target": "doc_007.txt"
+    },
+    {
+      "source": "doc_010.txt",
+      "target": "doc_014.txt"
+    },
+    {
+      "source": "doc_014.txt",
+      "target": "doc_018.txt"
+    },
+    {
+      "source": "doc_015.txt",
+      "target": "doc_028.txt"
+    },
+    {
+      "source": "doc_015.txt",
+      "target": "doc_050.txt"
+    },
+    {
+      "source": "doc_017.txt",
+      "target": "doc_016.txt"
+    },
+    {
+      "source": "doc_023.txt",
+      "target": "doc_031.txt"
+    },
+    {
+      "source": "doc_023.txt",
+      "target": "doc_046.txt"
+    },
+    {
+      "source": "doc_024.txt",
+      "target": "doc_032.txt"
+    },
+    {
+      "source": "doc_028.txt",
+      "target": "doc_013.txt"
+    },
+    {
+      "source": "doc_029.txt",
+      "target": "doc_034.txt"
+    },
+    {
+      "source": "doc_029.txt",
+      "target": "doc_037.txt"
+    },
+    {
+      "source": "doc_029.txt",
+      "target": "doc_041.txt"
+    },
+    {
+      "source": "doc_030.txt",
+      "target": "doc_026.txt"
+    },
+    {
+      "source": "doc_032.txt",
+      "target": "doc_002.txt"
+    },
+    {
+      "source": "doc_032.txt",
+      "target": "doc_006.txt"
+    },
+    {
+      "source": "doc_032.txt",
+      "target": "doc_012.txt"
+    },
+    {
+      "source": "doc_034.txt",
+      "target": "doc_025.txt"
+    },
+    {
+      "source": "doc_036.txt",
+      "target": "doc_005.txt"
+    },
+    {
+      "source": "doc_036.txt",
+      "target": "doc_011.txt"
+    },
+    {
+      "source": "doc_036.txt",
+      "target": "doc_029.txt"
+    },
+    {
+      "source": "doc_037.txt",
+      "target": "doc_005.txt"
+    },
+    {
+      "source": "doc_037.txt",
+      "target": "doc_033.txt"
+    },
+    {
+      "source": "doc_039.txt",
+      "target": "doc_021.txt"
+    },
+    {
+      "source": "doc_039.txt",
+      "target": "doc_045.txt"
+    },
+    {
+      "source": "doc_039.txt",
+      "target": "doc_048.txt"
+    },
+    {
+      "source": "doc_039.txt",
+      "target": "doc_049.txt"
+    },
+    {
+      "source": "doc_041.txt",
+      "target": "doc_024.txt"
+    },
+    {
+      "source": "doc_043.txt",
+      "target": "doc_023.txt"
+    },
+    {
+      "source": "doc_045.txt",
+      "target": "doc_038.txt"
+    },
+    {
+      "source": "doc_045.txt",
+      "target": "doc_043.txt"
+    },
+    {
+      "source": "doc_047.txt",
+      "target": "doc_020.txt"
+    },
+    {
+      "source": "doc_047.txt",
+      "target": "doc_022.txt"
+    },
+    {
+      "source": "doc_047.txt",
+      "target": "doc_027.txt"
+    },
+    {
+      "source": "doc_048.txt",
+      "target": "doc_026.txt"
+    },
+    {
+      "source": "doc_048.txt",
+      "target": "doc_030.txt"
+    },
+    {
+      "source": "doc_048.txt",
+      "target": "doc_044.txt"
+    }
+  ],
+  "distractors": [
+    {
+      "file": "doc_002.txt",
+      "type": "distractor",
+      "short_desc": "Inspeção Estrutural da Instalação",
+      "detailed_desc": "Medições de dilatação em juntas estruturais e vedação de juntas de expansão"
+    },
+    {
+      "file": "doc_003.txt",
+      "type": "distractor",
+      "short_desc": "Calibração de Instrumentos Analógicos",
+      "detailed_desc": "Aferição técnica periódica e ajuste de zero de transdutores de pressão analógicos"
+    },
+    {
+      "file": "doc_004.txt",
+      "type": "distractor",
+      "short_desc": "Telemetria de Climatização Ambiental",
+      "detailed_desc": "Vazão de água gelada e telemetria de motores das unidades de tratamento de ar"
+    },
+    {
+      "file": "doc_005.txt",
+      "type": "distractor",
+      "short_desc": "Sincronização de Relógio Atômico",
+      "detailed_desc": "Medições de estabilidade de frequência, rastreamento de fase e desvio de relógio"
+    },
+    {
+      "file": "doc_006.txt",
+      "type": "distractor",
+      "short_desc": "Ensaio de Gerador Diesel Auxiliar",
+      "detailed_desc": "Sequência de partida a frio, tempo de comutação da chave de transferência e exaustão"
+    },
+    {
+      "file": "doc_007.txt",
+      "type": "distractor",
+      "short_desc": "Verificação de Bicos de Incêndio",
+      "detailed_desc": "Inspeção de pressão hidrostática de cilindros de gás inerte e lacres de válvulas"
+    },
+    {
+      "file": "doc_008.txt",
+      "type": "distractor",
+      "short_desc": "Isolamento Galvânico de Circuitos",
+      "detailed_desc": "Ensaio de tensão disruptiva dielétrica em barreiras de isolamento galvânico"
+    },
+    {
+      "file": "doc_010.txt",
+      "type": "distractor",
+      "short_desc": "Compatibilidade Eletromagnética",
+      "detailed_desc": "Varredura de radiofrequência em gabinetes de contenção de sinal"
+    },
+    {
+      "file": "doc_011.txt",
+      "type": "distractor",
+      "short_desc": "Teste de Baterias de Emergência",
+      "detailed_desc": "Ciclo de teste de descarga de luminárias LED de emergência e bancos de baterias"
+    },
+    {
+      "file": "doc_012.txt",
+      "type": "distractor",
+      "short_desc": "Escala Semanal de Turnos Técnicos",
+      "detailed_desc": "Escala de supervisores e turnos de rotação técnica de manutenção predial"
+    },
+    {
+      "file": "doc_013.txt",
+      "type": "distractor",
+      "short_desc": "Análise de Paridade de Memória",
+      "detailed_desc": "Contadores de correção de erro de bit único e integridade de barramento de memória"
+    },
+    {
+      "file": "doc_014.txt",
+      "type": "distractor",
+      "short_desc": "Diagnóstico de Distribuição Elétrica",
+      "detailed_desc": "Leituras de distorção harmônica, temperatura de transformadores e barramentos"
+    },
+    {
+      "file": "doc_015.txt",
+      "type": "distractor",
+      "short_desc": "Protocolo de Descarte Sanitário",
+      "detailed_desc": "Documentação de transferência de custódia para óleo hidráulico e filtros de sala limpa"
+    },
+    {
+      "file": "doc_016.txt",
+      "type": "distractor",
+      "short_desc": "Eficiência Térmica de Processamento",
+      "detailed_desc": "Cálculos de eficiência energética e gradiente térmico de dissipadores de calor"
+    },
+    {
+      "file": "doc_017.txt",
+      "type": "distractor",
+      "short_desc": "Telemetria de Barramento Serial",
+      "detailed_desc": "Taxa de sincronização de pacotes, telemetria de erros de quadro e verificação de paridade"
+    },
+    {
+      "file": "doc_018.txt",
+      "type": "distractor",
+      "short_desc": "Inspeção de Interfaces Ópticas",
+      "detailed_desc": "Atenuação de sinal óptico por quilômetro e conformidade de conectores de fibra"
+    },
+    {
+      "file": "doc_019.txt",
+      "type": "distractor",
+      "short_desc": "Requisição de Suprimentos de Consumo",
+      "detailed_desc": "Pedido padrão de reposição de lubrificantes, panos industriais e filtros de EPI"
+    },
+    {
+      "file": "doc_020.txt",
+      "type": "distractor",
+      "short_desc": "Registro de Operação de Chillers",
+      "detailed_desc": "Análise de vibração de compressores, temperatura de aproximação e nível de refrigerante"
+    },
+    {
+      "file": "doc_021.txt",
+      "type": "distractor",
+      "short_desc": "Inspeção de Bombas Hidráulicas 2",
+      "detailed_desc": "Pressão diferencial em filtros principais e auditoria térmica do reservatório de óleo 2"
+    },
+    {
+      "file": "doc_022.txt",
+      "type": "distractor",
+      "short_desc": "Inspeção Estrutural da Instalação 2",
+      "detailed_desc": "Medições de dilatação em juntas estruturais e vedação de juntas de expansão 2"
+    },
+    {
+      "file": "doc_023.txt",
+      "type": "distractor",
+      "short_desc": "Calibração de Instrumentos Analógicos 2",
+      "detailed_desc": "Aferição técnica periódica e ajuste de zero de transdutores de pressão analógicos 2"
+    },
+    {
+      "file": "doc_024.txt",
+      "type": "distractor",
+      "short_desc": "Telemetria de Climatização Ambiental 2",
+      "detailed_desc": "Vazão de água gelada e telemetria de motores das unidades de tratamento de ar 2"
+    },
+    {
+      "file": "doc_025.txt",
+      "type": "distractor",
+      "short_desc": "Sincronização de Relógio Atômico 2",
+      "detailed_desc": "Medições de estabilidade de frequência, rastreamento de fase e desvio de relógio 2"
+    },
+    {
+      "file": "doc_026.txt",
+      "type": "distractor",
+      "short_desc": "Ensaio de Gerador Diesel Auxiliar 2",
+      "detailed_desc": "Sequência de partida a frio, tempo de comutação da chave de transferência e exaustão 2"
+    },
+    {
+      "file": "doc_027.txt",
+      "type": "distractor",
+      "short_desc": "Verificação de Bicos de Incêndio 2",
+      "detailed_desc": "Inspeção de pressão hidrostática de cilindros de gás inerte e lacres de válvulas 2"
+    },
+    {
+      "file": "doc_028.txt",
+      "type": "distractor",
+      "short_desc": "Isolamento Galvânico de Circuitos 2",
+      "detailed_desc": "Ensaio de tensão disruptiva dielétrica em barreiras de isolamento galvânico 2"
+    },
+    {
+      "file": "doc_029.txt",
+      "type": "distractor",
+      "short_desc": "Especificação de Redundância de Rede 2",
+      "detailed_desc": "Tempo de convergência de tabelas de roteamento e latência de comutação por falha 2"
+    },
+    {
+      "file": "doc_030.txt",
+      "type": "distractor",
+      "short_desc": "Compatibilidade Eletromagnética 2",
+      "detailed_desc": "Varredura de radiofrequência em gabinetes de contenção de sinal 2"
+    },
+    {
+      "file": "doc_031.txt",
+      "type": "distractor",
+      "short_desc": "Teste de Baterias de Emergência 2",
+      "detailed_desc": "Ciclo de teste de descarga de luminárias LED de emergência e bancos de baterias 2"
+    },
+    {
+      "file": "doc_032.txt",
+      "type": "distractor",
+      "short_desc": "Escala Semanal de Turnos Técnicos 2",
+      "detailed_desc": "Escala de supervisores e turnos de rotação técnica de manutenção predial 2"
+    },
+    {
+      "file": "doc_033.txt",
+      "type": "distractor",
+      "short_desc": "Análise de Paridade de Memória 2",
+      "detailed_desc": "Contadores de correção de erro de bit único e integridade de barramento de memória 2"
+    },
+    {
+      "file": "doc_034.txt",
+      "type": "distractor",
+      "short_desc": "Diagnóstico de Distribuição Elétrica 2",
+      "detailed_desc": "Leituras de distorção harmônica, temperatura de transformadores e barramentos 2"
+    },
+    {
+      "file": "doc_035.txt",
+      "type": "distractor",
+      "short_desc": "Protocolo de Descarte Sanitário 2",
+      "detailed_desc": "Documentação de transferência de custódia para óleo hidráulico e filtros de sala limpa 2"
+    },
+    {
+      "file": "doc_036.txt",
+      "type": "distractor",
+      "short_desc": "Eficiência Térmica de Processamento 2",
+      "detailed_desc": "Cálculos de eficiência energética e gradiente térmico de dissipadores de calor 2"
+    },
+    {
+      "file": "doc_037.txt",
+      "type": "distractor",
+      "short_desc": "Telemetria de Barramento Serial 2",
+      "detailed_desc": "Taxa de sincronização de pacotes, telemetria de erros de quadro e verificação de paridade 2"
+    },
+    {
+      "file": "doc_038.txt",
+      "type": "distractor",
+      "short_desc": "Inspeção de Interfaces Ópticas 2",
+      "detailed_desc": "Atenuação de sinal óptico por quilômetro e conformidade de conectores de fibra 2"
+    },
+    {
+      "file": "doc_039.txt",
+      "type": "distractor",
+      "short_desc": "Requisição de Suprimentos de Consumo 2",
+      "detailed_desc": "Pedido padrão de reposição de lubrificantes, panos industriais e filtros de EPI 2"
+    },
+    {
+      "file": "doc_040.txt",
+      "type": "distractor",
+      "short_desc": "Registro de Operação de Chillers 2",
+      "detailed_desc": "Análise de vibração de compressores, temperatura de aproximação e nível de refrigerante 2"
+    },
+    {
+      "file": "doc_041.txt",
+      "type": "distractor",
+      "short_desc": "Inspeção de Bombas Hidráulicas 3",
+      "detailed_desc": "Pressão diferencial em filtros principais e auditoria térmica do reservatório de óleo 3"
+    },
+    {
+      "file": "doc_043.txt",
+      "type": "distractor",
+      "short_desc": "Calibração de Instrumentos Analógicos 3",
+      "detailed_desc": "Aferição técnica periódica e ajuste de zero de transdutores de pressão analógicos 3"
+    },
+    {
+      "file": "doc_044.txt",
+      "type": "distractor",
+      "short_desc": "Telemetria de Climatização Ambiental 3",
+      "detailed_desc": "Vazão de água gelada e telemetria de motores das unidades de tratamento de ar 3"
+    },
+    {
+      "file": "doc_045.txt",
+      "type": "distractor",
+      "short_desc": "Sincronização de Relógio Atômico 3",
+      "detailed_desc": "Medições de estabilidade de frequência, rastreamento de fase e desvio de relógio 3"
+    },
+    {
+      "file": "doc_046.txt",
+      "type": "distractor",
+      "short_desc": "Ensaio de Gerador Diesel Auxiliar 3",
+      "detailed_desc": "Sequência de partida a frio, tempo de comutação da chave de transferência e exaustão 3"
+    },
+    {
+      "file": "doc_047.txt",
+      "type": "distractor",
+      "short_desc": "Verificação de Bicos de Incêndio 3",
+      "detailed_desc": "Inspeção de pressão hidrostática de cilindros de gás inerte e lacres de válvulas 3"
+    },
+    {
+      "file": "doc_048.txt",
+      "type": "distractor",
+      "short_desc": "Isolamento Galvânico de Circuitos 3",
+      "detailed_desc": "Ensaio de tensão disruptiva dielétrica em barreiras de isolamento galvânico 3"
+    },
+    {
+      "file": "doc_049.txt",
+      "type": "distractor",
+      "short_desc": "Especificação de Redundância de Rede 3",
+      "detailed_desc": "Tempo de convergência de tabelas de roteamento e latência de comutação por falha 3"
+    },
+    {
+      "file": "doc_050.txt",
+      "type": "distractor",
+      "short_desc": "Compatibilidade Eletromagnética 3",
+      "detailed_desc": "Varredura de radiofrequência em gabinetes de contenção de sinal 3"
+    }
+  ]
+}

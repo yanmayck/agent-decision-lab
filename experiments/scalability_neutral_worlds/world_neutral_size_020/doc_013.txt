@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_013.txt ===
+Assunto: Métricas de Pacotes de Barramento
+Status Operacional: Verificado
+
+Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.
+Referência técnica cruzada: consulte o documento doc_012.txt para especificações complementares.

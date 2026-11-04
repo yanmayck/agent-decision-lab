@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_071.txt ===
+Assunto: Métricas de Pacotes de Barramento 4
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.

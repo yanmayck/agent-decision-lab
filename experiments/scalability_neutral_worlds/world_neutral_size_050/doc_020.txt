@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_020.txt ===
+Assunto: Vibração de Compressores de Chillers
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.

@@ -1,0 +1,114 @@
+{
+  "seed": 42,
+  "language": "pt-BR",
+  "total_files": 10,
+  "neutral_naming": true,
+  "secret_code": "TESOURO-9935-ORION",
+  "start_file": "doc_001.txt",
+  "solution_path": [
+    "doc_001.txt",
+    "doc_003.txt",
+    "doc_002.txt"
+  ],
+  "folders": [],
+  "clue_chain": [
+    {
+      "step": 1,
+      "file": "doc_001.txt",
+      "type": "direct",
+      "leads_to": "doc_003.txt",
+      "short_desc": "Eficiência Térmica de Processamento",
+      "detailed_desc": "Cálculos de eficiência energética e gradiente térmico de dissipadores de calor"
+    },
+    {
+      "step": 2,
+      "file": "doc_003.txt",
+      "type": "direct",
+      "leads_to": "doc_002.txt",
+      "short_desc": "Calibração de Instrumentos Analógicos",
+      "detailed_desc": "Aferição técnica periódica e ajuste de zero de transdutores de pressão analógicos"
+    },
+    {
+      "step": 3,
+      "file": "doc_002.txt",
+      "type": "terminal",
+      "secret_code": "TESOURO-9935-ORION",
+      "short_desc": "Sincronização de Relógio Atômico",
+      "detailed_desc": "Medições de estabilidade de frequência, rastreamento de fase e desvio de relógio"
+    }
+  ],
+  "distractor_edges": [
+    {
+      "source": "doc_001.txt",
+      "target": "doc_007.txt"
+    },
+    {
+      "source": "doc_005.txt",
+      "target": "doc_009.txt"
+    },
+    {
+      "source": "doc_006.txt",
+      "target": "doc_008.txt"
+    },
+    {
+      "source": "doc_007.txt",
+      "target": "doc_004.txt"
+    },
+    {
+      "source": "doc_008.txt",
+      "target": "doc_006.txt"
+    },
+    {
+      "source": "doc_010.txt",
+      "target": "doc_005.txt"
+    },
+    {
+      "source": "doc_010.txt",
+      "target": "doc_009.txt"
+    }
+  ],
+  "distractors": [
+    {
+      "file": "doc_004.txt",
+      "type": "distractor",
+      "short_desc": "Inspeção de Bombas Hidráulicas",
+      "detailed_desc": "Pressão diferencial em filtros principais e auditoria térmica do reservatório de óleo"
+    },
+    {
+      "file": "doc_005.txt",
+      "type": "distractor",
+      "short_desc": "Inspeção de Interfaces Ópticas",
+      "detailed_desc": "Atenuação de sinal óptico por quilômetro e conformidade de conectores de fibra"
+    },
+    {
+      "file": "doc_006.txt",
+      "type": "distractor",
+      "short_desc": "Protocolo de Descarte Sanitário",
+      "detailed_desc": "Documentação de transferência de custódia para óleo hidráulico e filtros de sala limpa"
+    },
+    {
+      "file": "doc_007.txt",
+      "type": "distractor",
+      "short_desc": "Verificação de Bicos de Incêndio",
+      "detailed_desc": "Inspeção de pressão hidrostática de cilindros de gás inerte e lacres de válvulas"
+    },
+    {
+      "file": "doc_008.txt",
+      "type": "distractor",
+      "short_desc": "Isolamento Galvânico de Circuitos",
+      "detailed_desc": "Ensaio de tensão disruptiva dielétrica em barreiras de isolamento galvânico"
+    },
+    {
+      "file": "doc_009.txt",
+      "type": "distractor",
+      "short_desc": "Análise de Paridade de Memória",
+      "detailed_desc": "Contadores de correção de erro de bit único e integridade de barramento de memória"
+    },
+    {
+      "file": "doc_010.txt",
+      "type": "distractor",
+      "short_desc": "Requisição de Suprimentos de Consumo",
+      "detailed_desc": "Pedido padrão de reposição de lubrificantes, panos industriais e filtros de EPI"
+    }
+  ]
+}

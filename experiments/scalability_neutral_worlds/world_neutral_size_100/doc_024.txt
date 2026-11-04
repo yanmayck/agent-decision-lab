@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_024.txt ===
+Assunto: Calibração de Transdutores de Pressão 2
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.

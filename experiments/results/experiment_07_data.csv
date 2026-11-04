@@ -1,0 +1,13 @@
+run_id,file_count,condition,condition_label,success,status,interrupted_by_limit,total_actions,api_calls,files_read_count,irrelevant_reads_count,parallel_reads_count,sequential_reads_count,followed_genuine_clues,input_tokens,output_tokens,reasoning_tokens,tool_result_tokens,total_tokens,map_size_bytes,map_size_tokens_est,map_consulted,map_consulted_step,estimated_cost_usd,cumulative_cost_usd,latency_seconds
+1,10,sem_descricao,Sem Descrição,True,submitted,False,6,4,3,0,1,2,True,6049,118,585,706,6752,1203,301,True,1,0.000665,0.000665,77.4909
+2,10,descricao_curta,Descrição Curta,True,submitted,False,8,5,5,2,4,1,False,7752,156,353,994,8261,1743,436,True,1,0.000734,0.001399,117.7859
+3,10,descricao_detalhada,Descrição Detalhada,True,submitted,False,7,4,5,2,5,0,False,5983,146,219,1070,6348,2241,561,True,1,0.000558,0.001957,85.5997
+4,20,sem_descricao,Sem Descrição,True,submitted,False,6,4,3,0,2,1,True,8196,113,406,1223,8715,2520,630,True,1,0.00077,0.002727,69.7469
+5,20,descricao_curta,Descrição Curta,True,submitted,False,6,5,3,0,0,3,True,11797,113,265,1523,12175,3600,900,True,1,0.000998,0.003725,138.7712
+6,20,descricao_detalhada,Descrição Detalhada,True,submitted,False,6,5,3,0,1,2,True,12703,113,389,1766,13205,4572,1143,True,1,0.001103,0.004828,72.5983
+7,50,sem_descricao,Sem Descrição,True,submitted,False,5,5,3,0,0,3,True,18249,102,387,2297,18738,5792,1448,True,1,0.001515,0.006343,48.7356
+8,50,descricao_curta,Descrição Curta,True,submitted,False,6,5,3,0,0,3,True,23884,112,453,3302,24449,8559,2140,True,1,0.001961,0.008304,30.6752
+9,50,descricao_detalhada,Descrição Detalhada,True,submitted,False,5,4,3,0,1,2,True,17691,102,223,3667,18016,10970,2743,True,1,0.001424,0.009728,11.5487
+10,100,sem_descricao,Sem Descrição,True,submitted,False,5,4,3,0,1,2,True,25692,102,308,4504,26102,11958,2990,True,1,0.00205,0.011778,30.3761
+11,100,descricao_curta,Descrição Curta,True,submitted,False,6,5,3,0,1,2,True,44099,112,297,6519,44508,17518,4380,True,1,0.00343,0.015208,13.4323
+12,100,descricao_detalhada,Descrição Detalhada,True,submitted,False,5,4,3,0,1,2,True,33534,102,210,7259,33846,22378,5595,True,1,0.002609,0.017817,11.3312

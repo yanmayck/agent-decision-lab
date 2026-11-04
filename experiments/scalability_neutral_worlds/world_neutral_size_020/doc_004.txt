@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_004.txt ===
+Assunto: Banco de Baterias de Emergência
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.

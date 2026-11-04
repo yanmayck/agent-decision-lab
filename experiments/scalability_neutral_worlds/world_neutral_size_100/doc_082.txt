@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_082.txt ===
+Assunto: Telemetria de Barramentos da Subestação 5
+Status Operacional: Verificado
+
+Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.
+Referência técnica cruzada: consulte o documento doc_060.txt para especificações complementares.

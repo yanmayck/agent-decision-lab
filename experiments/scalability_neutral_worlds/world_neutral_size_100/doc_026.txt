@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_026.txt ===
+Assunto: Dissipação Térmica de Processadores 2
+Status Operacional: Verificado
+
+Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.
+Referência técnica cruzada: consulte o documento doc_048.txt para especificações complementares.

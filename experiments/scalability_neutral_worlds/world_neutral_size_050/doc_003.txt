@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_003.txt ===
+Assunto: Calibração de Transdutores de Pressão
+Status Operacional: Verificado
+
+Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.
+Referência técnica cruzada: consulte o documento doc_019.txt para especificações complementares.

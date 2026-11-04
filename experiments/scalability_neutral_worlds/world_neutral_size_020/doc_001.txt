@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_001.txt ===
+Assunto: Calibração de Transdutores de Pressão
+Status Operacional: Verificado
+
+Parâmetros operacionais verificados e registrados em conformidade técnica.
+Para prosseguir na cadeia de verificação, examine o documento doc_005.txt com os registros de telemetria.

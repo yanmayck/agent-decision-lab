@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_006.txt ===
+Assunto: Cilindros de Supressão por Gás Inerte
+Status Operacional: Verificado
+
+Procedimento operacional normalizado. Leituras estáveis em toda a faixa de tolerância.
+Nenhum procedimento adicional requerido.

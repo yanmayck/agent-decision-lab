@@ -1,0 +1,6 @@
+=== REGISTRO TÉCNICO: doc_017.txt ===
+Assunto: Descarte de Resíduos Industriais
+Status Operacional: Verificado
+
+Inspeção técnica de rotina concluída. Parâmetros dentro das faixas nominais.
+Referência técnica cruzada: consulte o documento doc_003.txt para especificações complementares.
